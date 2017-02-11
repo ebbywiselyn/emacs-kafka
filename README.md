@@ -12,3 +12,5 @@ Using magit-popup to play around kafka-topics, consumer-groups CLI commands.
 ## Requirements
 	* magit libraries (install magit).
 	* Download kafka and set kafka-cli-path
+	* Start the kafka consumer, zookeeper, producer services in services.el
+
