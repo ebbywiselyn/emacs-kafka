@@ -32,6 +32,6 @@ Using magit-popup to play around kafka-topics, consumer-groups CLI commands.
 	You can switch the buffer (Ctrl-x-b) to see if these processes are running.
 
 ## Kafka CLI
-	* M-x magit-kafka-topic 
+	* M-x magit-kafka-topic
 	  gives a popup with different options dealing with topics.
 	* Only listing topics and deleting a topic, two of the features I needed for now is supported ;) . More later.
