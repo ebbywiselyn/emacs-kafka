@@ -1,8 +1,6 @@
 # emacs-kafka
 A Kafka CLI porcelain for Emacs, inspired by Magit.
 
-Attempts to create a kafka-mode in emacs.
-
 Starting a local kafka-broker, zookeeper, and console consumer/producer in emacs comint modes.
 
 Using magit-popup to play around kafka-topics, consumer-groups CLI commands.
@@ -33,5 +31,7 @@ Using magit-popup to play around kafka-topics, consumer-groups CLI commands.
 
 	You can switch the buffer (Ctrl-x-b) to see if these processes are running.
 
-## Play around with the CLI
-	* M-x magit-kafka-topic gives a popup with different options dealing with topics.
+## Kafka CLI
+	* M-x magit-kafka-topic 
+	  gives a popup with different options dealing with topics.
+	* Only listing topics and deleting a topic, two of the features I needed for now is supported ;) . More later.
