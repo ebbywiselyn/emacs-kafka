@@ -1,16 +1,37 @@
 # emacs-kafka
-A Kafka CLI porcelain for Emacs.
+A Kafka CLI porcelain for Emacs, inspired by Magit.
 
-Attempts to create a kafka-mode in emacs. 
+Attempts to create a kafka-mode in emacs.
 
-Starting a local kafka-broker, zookeeper, and console consumer/producer in emacs comint modes. 
+Starting a local kafka-broker, zookeeper, and console consumer/producer in emacs comint modes.
 
-Using magit-popup to play around kafka-topics, consumer-groups CLI commands. 
+Using magit-popup to play around kafka-topics, consumer-groups CLI commands.
 
 
 
 ## Requirements
-	* magit libraries (install magit).
-	* Download kafka and set kafka-cli-path
-	* Start the kafka consumer, zookeeper, producer services in services.el
+	* [Magit](https://github.com/magit/magit)
+	* Download [Kafka](https://kafka.apache.org/downloads.html)
 
+## Start the services
+	* Customize the variables
+		1. kafka-cli-bin-path
+		2. kafka-cli-config-path
+
+		  Set them to your local kafka installation, Example
+			  * kafka-cli-bin-path -> ~/apps/kafka-0.10/bin/
+			  * kafka-cli-config-path -> ~/apps/kafka-0.10/config/
+
+	* M-x run-zookeeper RET
+	  Should start the zookeeper service in localhost:2181
+
+	* M-x run-kafkabroker RET
+	  Should start a local broker running in localhost:9092
+
+	* M-x run-kafkaconsumer RET
+	  Should start a console consumer
+
+	You can switch the buffer (Ctrl-x-b) to see if these processes are running.
+
+## Play around with the CLI
+	* M-x magit-kafka-topic gives a popup with different options dealing with topics.
