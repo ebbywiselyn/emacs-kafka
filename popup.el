@@ -4,7 +4,8 @@
 
 (require 'magit-popup)
 
-(defcustom kafka-cli-path "~/apps/kafka/kafka/bin/" "Kafka CLI tools path.")
+(defcustom kafka-cli-bin-path "~/apps/kafka/kafka/bin/" "Kafka CLI tools path.")
+(defcustom kafka-cli-config-path "~/apps/kafka/kafka/config/" "Kafka CLI config path.")
 
 (defun alter-topics (topic)
   "TOPIC ."
@@ -19,7 +20,7 @@
 (defun delete-topics (topic)
   "TOPIC ."
   (interactive (list (completing-read "Topic:" (--get-topics))))
-  (let* ((topics-cli (concat kafka-cli-path "/kafka-topics.sh"))
+  (let* ((topics-cli (concat kafka-cli-bin-path "/kafka-topics.sh"))
 	 (buff (get-buffer-create "*kafka-output*")))
     (call-process topics-cli nil buff t "--zookeeper" "localhost:2181" "--topic" topic "--delete")))
 
@@ -32,7 +33,7 @@
   "."
   (interactive) ;; Refer magit how to write your own list buffer mode?
   (let* ((buff "*kafka-topics*")
-	 (topics-cli (concat kafka-cli-path "/kafka-topics.sh")))
+	 (topics-cli (concat kafka-cli-bin-path "/kafka-topics.sh")))
     (progn
       (message "topics-cli %s" topics-cli)
       (call-process topics-cli nil buff t "--zookeeper" "localhost:2181" "--list"))))
@@ -56,6 +57,6 @@
 	     (?l "List all Topicss" list-topics))
   :default-action 'describe-topics)
   
-(require 'magit)
+(provide 'popup)
 
 ;;; popup.el ends here

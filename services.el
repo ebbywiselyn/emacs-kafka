@@ -1,9 +1,15 @@
+;;; services.el --- Summary
+;;; Commentary:
+;;; Code:
+
+(require 'popup)
+
 ;;;###autoload
-(defvar zookeeper-cli-file-path "/home/ebby/apps/kafka/kafka-0.10/bin/zookeeper-server-start.sh"
+(defvar zookeeper-cli-file-path (concat kafka-cli-path "/zookeeper-server-start.sh")
   "Path to the program used by `run-zookeeper'.")
 
 ;;;###autoload
-(defvar zookeeper-cli-arguments "/home/ebby/apps/kafka/kafka-0.10/config/zookeeper.properties"
+(defvar zookeeper-cli-arguments (concat kafka-cli-config-path "/zookeeper.properties")
   "Command line arguments to `zookeeper-server-start.sh'.")
 
 ;;;###autoload
@@ -22,11 +28,11 @@
       )))
 
 ;;;###autoload
-(defvar kafka-broker-cli-file-path "/home/ebby/apps/kafka/kafka/bin/kafka-server-start.sh"
+(defvar kafka-broker-cli-file-path (concat kafka-cli-path "/kafka-server-start.sh")
   "Path to the program used by `run-kafka'.")
 
 ;;;###autoload
-(defvar kafka-broker-cli-arguments "/home/ebby/apps/kafka/kafka/config/server.properties"
+(defvar kafka-broker-cli-arguments (concat kafka-cli-config-path "/server.properties")
   "Command line arguments to `kafka-server-start.sh'.")
 
 ;;;###autoload
@@ -44,11 +50,13 @@
 	(and switch (switch-to-buffer kafka-broker-buffer))))))
 
 ;;;###autoload
-(defvar kafka-consumer-cli-file-path "/home/ebby/apps/kafka/kafka-0.10/bin/kafka-console-consumer.sh"
+(defvar kafka-consumer-cli-file-path
+  "/home/ebby/apps/kafka/kafka-0.10/bin/kafka-console-consumer.sh"
   "Path to the program used by `run-kafka'.")
 
 ;;;###autoload
-(defvar kafka-consumer-cli-arguments '("--whitelist" "event.json.*" "--bootstrap-server" "localhost:9092")
+(defvar kafka-consumer-cli-arguments
+  '("--whitelist" "event.json.*" "--bootstrap-server" "localhost:9092")
   "Command line arguments to `kafka-console-consumer.sh'.")
 
 ;;;###autoload
@@ -65,3 +73,5 @@
 	 kafka-consumer-cli-file-path 'nil kafka-consumer-cli-arguments)
 	(and switch (switch-to-buffer kafka-consumer-buffer))
 	))))
+
+;;; services.el ends here
