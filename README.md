@@ -1,5 +1,5 @@
 # emacs-kafka
-A kafka CLI mode for emacs. 
+A Kafka CLI porcelain for Emacs.
 
 Attempts to create a kafka-mode in emacs. 
 
