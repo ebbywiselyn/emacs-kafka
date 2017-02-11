@@ -14,7 +14,7 @@
 	 (zookeeper-buffer (get-buffer-create zookeeper-buffer-name)))
     (if (comint-check-proc zookeeper-buffer)
 	(and switch (switch-to-buffer zookeeper-buffer-name))
-      (progn 
+      (progn
 	(apply 'make-comint-in-buffer "*zookeeper*"
 	       zookeeper-buffer zookeeper-cli-file-path
 	       'nil (list zookeeper-cli-arguments))
@@ -37,10 +37,10 @@
 	 (kafka-broker-buffer (get-buffer-create kafka-broker-buffer-name)))
     (if (comint-check-proc kafka-broker-buffer)
 	(and switch (switch-to-buffer kafka-broker-buffer))
-      (progn 
-	(apply 
+      (progn
+	(apply
 	 'make-comint-in-buffer "*kafka*" kafka-broker-buffer
- 	 kafka-broker-cli-file-path 'nil (list kafka-broker-cli-arguments))
+	 kafka-broker-cli-file-path 'nil (list kafka-broker-cli-arguments))
 	(and switch (switch-to-buffer kafka-broker-buffer))))))
 
 ;;;###autoload
@@ -59,9 +59,9 @@
 	 (kafka-consumer-buffer (get-buffer-create kafka-consumer-buffer-name)))
     (if (comint-check-proc kafka-consumer-buffer)
 	(and switch (switch-to-buffer kafka-consumer-buffer))
-      (progn 
-	(apply 
+      (progn
+	(apply
 	 'make-comint-in-buffer "*consumer*" kafka-consumer-buffer
- 	 kafka-consumer-cli-file-path 'nil kafka-consumer-cli-arguments)
+	 kafka-consumer-cli-file-path 'nil kafka-consumer-cli-arguments)
 	(and switch (switch-to-buffer kafka-consumer-buffer))
 	))))
