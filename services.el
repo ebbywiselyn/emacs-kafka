@@ -5,7 +5,7 @@
 (require 'popup)
 
 ;;;###autoload
-(defvar zookeeper-cli-file-path (concat kafka-cli-path "/zookeeper-server-start.sh")
+(defvar zookeeper-cli-file-path (concat kafka-cli-bin-path "/zookeeper-server-start.sh")
   "Path to the program used by `run-zookeeper'.")
 
 ;;;###autoload
@@ -28,7 +28,7 @@
       )))
 
 ;;;###autoload
-(defvar kafka-broker-cli-file-path (concat kafka-cli-path "/kafka-server-start.sh")
+(defvar kafka-broker-cli-file-path (concat kafka-cli-bin-path "/kafka-server-start.sh")
   "Path to the program used by `run-kafka'.")
 
 ;;;###autoload
@@ -50,8 +50,7 @@
 	(and switch (switch-to-buffer kafka-broker-buffer))))))
 
 ;;;###autoload
-(defvar kafka-consumer-cli-file-path
-  "/home/ebby/apps/kafka/kafka-0.10/bin/kafka-console-consumer.sh"
+(defvar kafka-consumer-cli-file-path (concat kafka-cli-bin-path "/kafka-console-consumer.sh")
   "Path to the program used by `run-kafka'.")
 
 ;;;###autoload
@@ -71,7 +70,6 @@
 	(apply
 	 'make-comint-in-buffer "*consumer*" kafka-consumer-buffer
 	 kafka-consumer-cli-file-path 'nil kafka-consumer-cli-arguments)
-	(and switch (switch-to-buffer kafka-consumer-buffer))
-	))))
+	(and switch (switch-to-buffer kafka-consumer-buffer))))))
 
 ;;; services.el ends here
