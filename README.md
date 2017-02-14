@@ -43,4 +43,4 @@ Using magit-popup to play around kafka-topics, consumer-groups CLI commands.
 	![Screenshot](https://github.com/ebbywiselyn/emacs-kafka/raw/master/images/describe.jpg)
 	![Alt text](https://github.com/ebbywiselyn/emacs-kafka/raw/master/images/describe.jpg)	
 	![image](https://cloud.githubusercontent.com/assets/1137641/22924382/e8222fd4-f2ca-11e6-820c-239d425ccc0e.jpg)
-	![image](https://cloud.githubusercontent.com/assets/1137641/22924383/e8263174-f2ca-11e6-8330-6a22edb5dbd4.jpg)
+	![Screenshot](https://cloud.githubusercontent.com/assets/1137641/22924383/e8263174-f2ca-11e6-8330-6a22edb5dbd4.jpg)
