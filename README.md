@@ -37,5 +37,5 @@ Using magit-popup to play around kafka-topics, consumer-groups CLI commands.
 	  two of the features I needed for now is supported ;) . More later.
 
 ##  Screenshots
-	![Kafka Popup](./images/popup.png)
-	![Describe Topic](./images/describe.png)
+	![Kafka Popup](./images/popup.png?raw=true "Kafka Popup Screen")
+	![Describe Topic](./images/describe.png?raw=true "Describe Topic Screen")
