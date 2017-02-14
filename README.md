@@ -36,11 +36,11 @@ Using magit-popup to play around kafka-topics, consumer-groups CLI commands.
 	* Only listing topics and deleting a topic,
 	  two of the features I needed for now is supported ;) . More later.
 
-##  Screenshots
-    ![Alt text](https://raw.githubusercontent.com/ebbywiselyn/emacs-kafka/master/images/describe.jpg)
-	![Alt text](/images/popup.jpg?raw=true "Kafka Popup Screen")
-	![Alt text](/images/describe.jpg?raw=true "Describe Topic Screen")
-	![Screenshot](https://github.com/ebbywiselyn/emacs-kafka/raw/master/images/describe.jpg)
-	![Alt text](https://github.com/ebbywiselyn/emacs-kafka/raw/master/images/describe.jpg)	
-	![image](https://cloud.githubusercontent.com/assets/1137641/22924382/e8222fd4-f2ca-11e6-820c-239d425ccc0e.jpg)
-	![Screenshot](https://cloud.githubusercontent.com/assets/1137641/22924383/e8263174-f2ca-11e6-8330-6a22edb5dbd4.jpg)
+
+![Screenshot](https://cloud.githubusercontent.com/assets/1137641/22924383/e8263174-f2ca-11e6-8330-6a22edb5dbd4.jpg)
+![Alt text](https://raw.githubusercontent.com/ebbywiselyn/emacs-kafka/master/images/describe.jpg)
+![Alt text](/images/popup.jpg?raw=true "Kafka Popup Screen")
+![Alt text](/images/describe.jpg?raw=true "Describe Topic Screen")
+![Screenshot](https://github.com/ebbywiselyn/emacs-kafka/raw/master/images/describe.jpg)
+![Alt text](https://github.com/ebbywiselyn/emacs-kafka/raw/master/images/describe.jpg)		
+![image](https://cloud.githubusercontent.com/assets/1137641/22924382/e8222fd4-f2ca-11e6-820c-239d425ccc0e.jpg)
