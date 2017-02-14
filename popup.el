@@ -35,7 +35,7 @@
 ;;;###autoload
 (defun describe-topics (topic)
   "Describe the topic partition, replication factor, configs of TOPIC."
-  (interactive (list (completing-read "Topic:" (--get-topics)))
+  (interactive (list (completing-read "Topic:" (--get-topics))))
   (let* ((topics-cli (concat kafka-cli-bin-path "/kafka-topics.sh"))
 	 (buff (get-buffer-create "*kafka-output*")))
     (call-process topics-cli nil buff t

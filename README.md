@@ -6,7 +6,6 @@ Starting a local kafka-broker, zookeeper, and console consumer/producer in emacs
 Using magit-popup to play around kafka-topics, consumer-groups CLI commands.
 
 
-
 ## Requirements
 	* [Magit](https://github.com/magit/magit)
 	* Download [Kafka](https://kafka.apache.org/downloads.html)
@@ -36,3 +35,9 @@ Using magit-popup to play around kafka-topics, consumer-groups CLI commands.
 	  gives a popup with different options dealing with topics.
 	* Only listing topics and deleting a topic,
 	  two of the features I needed for now is supported ;) . More later.
+	  
+	  
+	  
+##  Screenshots
+	![alt tag](./images/popup.png)
+	![alt tag](./images/describe.png)	
