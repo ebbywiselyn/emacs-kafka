@@ -8,7 +8,7 @@ Using magit-popup to play around kafka-topics, consumer-groups CLI commands.
 
 ![Alt text](/images/popup.jpg?raw=true "Kafka Popup Screen")
 ![Alt text](/images/describe.jpg?raw=true "Describe Topic Screen")
-
+![Alt text](/images/kafka-mode.jpg?raw=true "Kafka Mode Screen")
 
 
 ## Requirements
