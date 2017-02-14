@@ -39,3 +39,4 @@ Using magit-popup to play around kafka-topics, consumer-groups CLI commands.
 ##  Screenshots
 	![Kafka Popup](/images/popup.png?raw=true "Kafka Popup Screen")
 	![Describe Topic](/images/describe.png?raw=true "Describe Topic Screen")
+	![Screenshot](https://raw.github.com/ebbywiselyn/emacs-kafka/master/images/describe.png)
