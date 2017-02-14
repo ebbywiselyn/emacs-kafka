@@ -17,10 +17,12 @@
   (message "alter topics %s" topic))
 
 ;;;###autoload
-(defun create-topics (topic)
+(defun create-topics (topic partition)
   "Create the TOPIC ."
-  (interactive (list (completing-read "Topic:" (--get-topics))))
-  (message "create topics %s" topic))
+  (interactive "sTopic: \nsPartition:")
+  (let* ((topics-cli (concat kafka-cli-bin-path "/kafka-topics.sh"))
+	 (buff (get-buffer-create "*kafka-output*")))
+    (call-process topics-cli nil buff t "--zookeeper" "localhost:2181" "--topic" topic "--partition" partition "--replication-factor" "1" "--create")))
 
 ;;;###autoload
 (defun delete-topics (topic)
@@ -33,7 +35,7 @@
 ;;;###autoload
 (defun describe-topics (topic)
   "Describe the topic partition, replication factor, configs of TOPIC."
-  (interactive (list (completing-read "Topic:" (--get-topics))))
+  (interactive (list (completing-read "Topic:" (--get-topics)))
   (let* ((topics-cli (concat kafka-cli-bin-path "/kafka-topics.sh"))
 	 (buff (get-buffer-create "*kafka-output*")))
     (call-process topics-cli nil buff t
@@ -79,8 +81,8 @@
 
 (defvar kafka-topic-highlights
        '((
-	  ("Topic\\|PartitionCount\\|Configs\\|Leader\\|Replicas\\|Isr\\|ReplicationFactor\\|Partition" . font-lock-keyword-face)
-	  (":\\|,\\|;\\|{\\|}\\|=>\\|@\\|$\\|=" . font-lock-keyword-face)
+	  ("Topic\\|PartitionCount\\|Configs\\|Leader\\|Replicas\\|Isr\\|ReplicationFactor\\|Partition\\|Group\\|Broker" . font-lock-keyword-face)
+	  (":\\|,\\|;\\|{\\|}\\|=>\\|@\\|$\\|=" . font-lock-string-face)
 	  )))
 
 (define-derived-mode kafka-topic-mode special-mode "Kafka Topics"
@@ -91,7 +93,15 @@
   (setq font-lock-defaults kafka-topic-highlights)
   (setq buffer-read-only 'nil))
 
+;; (require 'logview)
+;; (define-derived-mode kafka-process-mode comint-mode "Kafka Processes"
+;;   "Mode for looking at kafka processes
+;;   \\\\{kafka-process-mode-map}"
+;;   :group 'kafka-process
+;;   (use-local-map logview-mode-map))
+
+
+
 (provide 'popup)
 
 ;;; popup.el ends here
-
