@@ -32,7 +32,7 @@
 
 
 ;;;###autoload
-(defun alter-topics (topic)
+(defun alter-topics (topic) ;;; FIXME
   "Edit the TOPIC ."
   (interactive (list (completing-read "Topic:" (--get-topics))))
   (message "alter topics %s" topic))
@@ -104,17 +104,17 @@
   (emacs-kafka-log-mode))
 
 ;;;###autoload
-(magit-define-popup magit-kafka-topics
+(magit-define-popup emacs-kafka-popup
   "Some doc"
   :actions '((?a "Alter Topics" alter-topics)
 	     (?c "Create Topics" create-topics)
 	     (?d "Delete Topics" delete-topics)
 	     (?h "Describe Topics" describe-topics)
-	     (?O "Services Overview" magit-kafka-services)
+	     (?O "Services Overview" emacs-kafka-services)
 	     (?l "List all Topics" list-topics))
   :default-action 'describe-topics)
 
-(magit-define-popup magit-kafka-services
+(magit-define-popup emacs-kafka-services
   "Some doc"
   :actions '((?z "View Zookeeper" show-zk-server)
 	     (?k "View Kafka" show-kafka-server)
@@ -131,8 +131,8 @@
 (defvar emacs-kafka-log-mode-highlights
   '((
      ("INFO\\|WARN" . font-lock-keyword-face)
-     ("\\[\\(.*?\\)\\]" . font-lock-constant-face)
-     ("\(\\(.*?\\)\)" . font-lock-string-face)
+     ("^\\[\\(.*?\\)\\]" . font-lock-builtin-face)
+     ("\(\\(.*?\\)\)" . font-lock-variable-name-face)
      )))
 
 (define-derived-mode emacs-kafka-log-mode special-mode "EmacsKafkaLog"

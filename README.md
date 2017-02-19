@@ -17,8 +17,8 @@ Using magit-popup to play around kafka-topics, consumer-groups CLI commands.
 * Download [Kafka](https://kafka.apache.org/downloads.html)
 
 ## Install
-    Clone the repository and add this in your .emacs
-	
+	Clone the repository and add this in your .emacs
+
 ```
 (add-to-list "/path/emacs-kafka")
 (require 'emacs-kafka)
@@ -45,7 +45,6 @@ Using magit-popup to play around kafka-topics, consumer-groups CLI commands.
 	You can switch the buffer (Ctrl-x-b) to see if these processes are running.
 
 ## Kafka CLI
-	* M-x magit-kafka-topic
+	* M-x emacs-kafka-popup
 	  gives a popup with different options dealing with topics.
-	* Supports listing, deleting, adding, describing topics.
-
+	* Supports listing, deleting, adding, describing topics, overview of kafka, zk, consumer services.
