@@ -89,19 +89,19 @@
   "Show Kafka Server."
   (interactive)
   (run-kafkabroker 1)
-  (kafka-topic-mode))
+  (emacs-kafka-log-mode))
 
 (defun show-zk-server ()
   "Show Zookeeper Buffer."
   (interactive)
   (run-zookeeper 1)
-  (kafka-topic-mode))
+  (emacs-kafka-log-mode))
 
 (defun show-consumer ()
   "Show Consumer Buffer."
   (interactive)
   (run-kafkaconsumer 1)
-  (kafka-topic-mode))
+  (emacs-kafka-log-mode))
 
 ;;;###autoload
 (magit-define-popup magit-kafka-topics
@@ -119,16 +119,29 @@
   :actions '((?z "View Zookeeper" show-zk-server)
 	     (?k "View Kafka" show-kafka-server)
 	     (?c "View Consumer Status" show-consumer))
-  :default-action 'alter-topics)
+  :default-action 'show-kafka-server)
 
-(defvar services-stats
-  '(:actions ((?k "kafka" show-kafka-server)
-	      (?z "Zookeeper" show-zk-server)
-	      (?c "Consumer" show-consumer))
-    :default-action show-consumer
-    :max-action-columns 1))
+(defvar emacs-kafka-log-mode-map
+  (let ((map (make-keymap)))
+    (define-key map (kbd "q") 'bury-buffer)
+    map)
+  "Keymap for `emacs-kafka-log-mode'.")
 
-(magit-define-popup-keys-deferred 'services-stats)
+;; use rx and improvise this
+(defvar emacs-kafka-log-mode-highlights
+  '((
+     ("INFO\\|WARN" . font-lock-keyword-face)
+     ("\\[\\(.*?\\)\\]" . font-lock-constant-face)
+     ("\(\\(.*?\\)\)" . font-lock-string-face)
+     )))
+
+(define-derived-mode emacs-kafka-log-mode special-mode "EmacsKafkaLog"
+  "Mode for looking at kafka services.
+\\{emacs-kafka-log-mode-map}"
+  :group 'kafka-topics
+  (use-local-map emacs-kafka-log-mode-map)
+  (setq font-lock-defaults emacs-kafka-log-mode-highlights)
+  (setq buffer-read-only 'nil))
 
 (defvar kafka-topic-mode-map
   (let ((map (make-keymap)))
@@ -149,15 +162,6 @@
   (use-local-map kafka-topic-mode-map)
   (setq font-lock-defaults kafka-topic-highlights)
   (setq buffer-read-only 'nil))
-
-;; (require 'logview)
-;; (define-derived-mode kafka-process-mode comint-mode "Kafka Processes"
-;;   "Mode for looking at kafka processes
-;;   \\\\{kafka-process-mode-map}"
-;;   :group 'kafka-process
-;;   (use-local-map logview-mode-map))
-
-
 
 (provide 'emacs-kafka)
 
