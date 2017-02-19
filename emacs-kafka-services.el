@@ -2,7 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-(require 'popup)
 
 ;;;###autoload
 (defvar zookeeper-cli-file-path (concat kafka-cli-bin-path "/zookeeper-server-start.sh")
@@ -55,7 +54,7 @@
 
 ;;;###autoload
 (defvar kafka-consumer-cli-arguments
-  '("--whitelist" "event.json.*" "--bootstrap-server" "localhost:9092")
+  '("--whitelist" "event.json.*" "--bootstrap-server" kafka-url)
   "Command line arguments to `kafka-console-consumer.sh'.")
 
 ;;;###autoload

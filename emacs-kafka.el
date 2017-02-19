@@ -2,14 +2,22 @@
 ;;; Commentary:
 ;;; Code:
 
-;; todo check if library exists else issue warning
-(require 'magit-popup)
-
 ;;;###autoload
 (defcustom kafka-cli-bin-path "/home/ebby/apps/kafka/kafka/bin/" "Kafka CLI tools path.")
 
 ;;;###autoload
 (defcustom kafka-cli-config-path "/home/ebby/apps/kafka/kafka/config/" "Kafka CLI config path.")
+
+;;;###autoload
+(defcustom zookeeper-url "localhost:2181" "Zookeeper hostname and port.")
+
+;;;###autoload
+(defcustom kafka-url "localhost:9092" "Kafka broker hostname and port.")
+
+;; todo check if library exists else issue warning
+(require 'magit-popup)
+(require 'emacs-kafka-services)
+
 
 ;;;###autoload
 (defun alter-topics (topic)
@@ -19,11 +27,11 @@
 
 ;;;###autoload
 (defun create-topics (topic partition)
-  "Create the TOPIC ."
+  "Create the TOPIC with PARTITION."
   (interactive "sTopic: \nsPartition:")
   (let* ((topics-cli (concat kafka-cli-bin-path "/kafka-topics.sh"))
 	 (buff (get-buffer-create "*kafka-output*")))
-    (call-process topics-cli nil buff t "--zookeeper" "localhost:2181" "--topic" topic "--partition" partition "--replication-factor" "1" "--create")))
+    (call-process topics-cli nil buff t "--zookeeper" zookeeper-url "--topic" topic "--partition" partition "--replication-factor" "1" "--create")))
 
 ;;;###autoload
 (defun delete-topics (topic)
@@ -31,7 +39,7 @@
   (interactive (list (completing-read "Topic:" (--get-topics))))
   (let* ((topics-cli (concat kafka-cli-bin-path "/kafka-topics.sh"))
 	 (buff (get-buffer-create "*kafka-output*")))
-    (call-process topics-cli nil buff t "--zookeeper" "localhost:2181" "--topic" topic "--delete")))
+    (call-process topics-cli nil buff t "--zookeeper" zookeeper-url "--topic" topic "--delete")))
 
 ;;;###autoload
 (defun describe-topics (topic)
@@ -40,7 +48,7 @@
   (let* ((topics-cli (concat kafka-cli-bin-path "/kafka-topics.sh"))
 	 (buff (get-buffer-create "*kafka-output*")))
     (call-process topics-cli nil buff t
-		  "--zookeeper" "localhost:2181" "--topic" topic "--describe")
+		  "--zookeeper" zookeeper-url "--topic" topic "--describe")
     (switch-to-buffer-other-window "*kafka-output*")
     (kafka-topic-mode)))
 
@@ -50,7 +58,7 @@
   (interactive) ;; Refer magit how to write your own list buffer mode?
   (let* ((buff "*kafka-topics*")
 	 (topics-cli (concat kafka-cli-bin-path "/kafka-topics.sh")))
-    (call-process topics-cli nil buff t "--zookeeper" "localhost:2181" "--list")
+    (call-process topics-cli nil buff t "--zookeeper" zookeeper-url "--list")
     (switch-to-buffer-other-window "*kafka-topics*")
     (kafka-topic-mode)))
 
