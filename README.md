@@ -47,5 +47,5 @@ Using magit-popup to play around kafka-topics, consumer-groups CLI commands.
 ## Kafka CLI
 	* M-x magit-kafka-topic
 	  gives a popup with different options dealing with topics.
-	* Only listing topics and deleting a topic,
-	  two of the features I needed for now is supported ;) . More later.
+	* Supports listing, deleting, adding, describing topics.
+
