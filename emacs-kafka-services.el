@@ -36,7 +36,7 @@
 
 ;;;###autoload
 (defun run-kafkabroker(switch)
-  "Run Kafka Broker"
+  "Run Kafka Broker, switch to buffer if SWITCH is non 'nil."
   (interactive "i")
   (let* ((kafka-broker-buffer-name "*kafka*")
 	 (kafka-broker-buffer (get-buffer-create kafka-broker-buffer-name)))
@@ -54,12 +54,12 @@
 
 ;;;###autoload
 (defvar kafka-consumer-cli-arguments
-  '("--whitelist" "event.json.*" "--bootstrap-server" kafka-url)
+  `("--whitelist" "event.json.*" "--bootstrap-server" ,kafka-url)
   "Command line arguments to `kafka-console-consumer.sh'.")
 
 ;;;###autoload
-(defun run-kafkaconsumer(switch)
-  "Run Kafka Consumer"
+(defun run-kafkaconsumer (switch)
+  "Run Kafka Consumer, switch to buffer if SWITCH is non 'nil."
   (interactive "i")
   (let* ((kafka-consumer-buffer-name "*consumer*")
 
