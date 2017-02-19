@@ -84,6 +84,25 @@
 	(setq all-topics (split-string (buffer-string)))))
     all-topics))
 
+
+(defun show-kafka-server ()
+  "Show Kafka Server."
+  (interactive)
+  (run-kafkabroker 1)
+  (kafka-topic-mode))
+
+(defun show-zk-server ()
+  "Show Zookeeper Buffer."
+  (interactive)
+  (run-zookeeper 1)
+  (kafka-topic-mode))
+
+(defun show-consumer ()
+  "Show Consumer Buffer."
+  (interactive)
+  (run-kafkaconsumer 1)
+  (kafka-topic-mode))
+
 ;;;###autoload
 (magit-define-popup magit-kafka-topics
   "Some doc"
@@ -91,8 +110,25 @@
 	     (?c "Create Topics" create-topics)
 	     (?d "Delete Topics" delete-topics)
 	     (?h "Describe Topics" describe-topics)
-	     (?l "List all Topicss" list-topics))
+	     (?O "Services Overview" magit-kafka-services)
+	     (?l "List all Topics" list-topics))
   :default-action 'describe-topics)
+
+(magit-define-popup magit-kafka-services
+  "Some doc"
+  :actions '((?z "View Zookeeper" show-zk-server)
+	     (?k "View Kafka" show-kafka-server)
+	     (?c "View Consumer Status" show-consumer))
+  :default-action 'alter-topics)
+
+(defvar services-stats
+  '(:actions ((?k "kafka" show-kafka-server)
+	      (?z "Zookeeper" show-zk-server)
+	      (?c "Consumer" show-consumer))
+    :default-action show-consumer
+    :max-action-columns 1))
+
+(magit-define-popup-keys-deferred 'services-stats)
 
 (defvar kafka-topic-mode-map
   (let ((map (make-keymap)))
