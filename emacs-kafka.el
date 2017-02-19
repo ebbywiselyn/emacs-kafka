@@ -135,7 +135,7 @@
      ("\(\\(.*?\\)\)" . font-lock-variable-name-face)
      )))
 
-(define-derived-mode emacs-kafka-log-mode special-mode "EmacsKafkaLog"
+(define-derived-mode emacs-kafka-log-mode comint-mode "EmacsKafkaLog"
   "Mode for looking at kafka services.
 \\{emacs-kafka-log-mode-map}"
   :group 'kafka-topics
