@@ -15,6 +15,14 @@ Using magit-popup to play around kafka-topics, consumer-groups CLI commands.
 	* [Magit](https://github.com/magit/magit)
 	* Download [Kafka](https://kafka.apache.org/downloads.html)
 
+## Install
+    Clone the repository and add this in your .emacs
+	```
+	(add-to-list "/path/emacs-kafka")
+	(require 'emacs-kafka)
+	(require 'emacs-kafka-services)
+	```
+
 ## Start the services
 	* Customize the variables
 		1. kafka-cli-bin-path

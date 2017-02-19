@@ -1,4 +1,4 @@
-;;; services.el --- Summary
+;;; emacs-kafka-services.el --- Summary
 ;;; Commentary:
 ;;; Code:
 
@@ -63,6 +63,7 @@
   "Run Kafka Consumer"
   (interactive "i")
   (let* ((kafka-consumer-buffer-name "*consumer*")
+
 	 (kafka-consumer-buffer (get-buffer-create kafka-consumer-buffer-name)))
     (if (comint-check-proc kafka-consumer-buffer)
 	(and switch (switch-to-buffer kafka-consumer-buffer))
@@ -72,4 +73,7 @@
 	 kafka-consumer-cli-file-path 'nil kafka-consumer-cli-arguments)
 	(and switch (switch-to-buffer kafka-consumer-buffer))))))
 
-;;; services.el ends here
+
+(provide 'emacs-kafka-services)
+
+;;; emacs-kafka-services.el ends here

@@ -1,14 +1,15 @@
-;;; popup.el --- Summary
+;;; emacs-kafka.el --- Summary
 ;;; Commentary:
 ;;; Code:
 
+;; todo check if library exists else issue warning
 (require 'magit-popup)
 
 ;;;###autoload
-(defcustom kafka-cli-bin-path "~/apps/kafka/kafka/bin/" "Kafka CLI tools path.")
+(defcustom kafka-cli-bin-path "/home/ebby/apps/kafka/kafka/bin/" "Kafka CLI tools path.")
 
 ;;;###autoload
-(defcustom kafka-cli-config-path "~/apps/kafka/kafka/config/" "Kafka CLI config path.")
+(defcustom kafka-cli-config-path "/home/ebby/apps/kafka/kafka/config/" "Kafka CLI config path.")
 
 ;;;###autoload
 (defun alter-topics (topic)
@@ -102,6 +103,6 @@
 
 
 
-(provide 'popup)
+(provide 'emacs-kafka)
 
-;;; popup.el ends here
+;;; emacs-kafka.el ends here
