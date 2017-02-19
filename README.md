@@ -22,9 +22,10 @@ Magit popup can also be installed through Melpa
 	Clone the repository and add this in your .emacs
 
 ```
-(add-to-list "/path/emacs-kafka")
+(add-to-list "/PATH/emacs-kafka")
 (require 'emacs-kafka)
 ```
+	Replace PATH with where you cloned it.
 
 ## Start the services
 	* Customize the variables
