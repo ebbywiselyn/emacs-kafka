@@ -13,8 +13,8 @@ Using magit-popup to play around kafka-topics, consumer-groups CLI commands.
 
 ## Requirements
 
-Install [Magit](https://github.com/magit/magit)
-Download [Kafka](https://kafka.apache.org/downloads.html)
+* Install [Magit](https://github.com/magit/magit)
+* Download [Kafka](https://kafka.apache.org/downloads.html)
 
 ## Install
     Clone the repository and add this in your .emacs
