@@ -33,6 +33,12 @@ Magit popup can also be installed through Melpa
 		2. kafka-cli-config-path
 
 		  Set them to your local kafka installation, Example
+
+``` emacs-lisp
+(setq kafka-cli-bin-path "/path/to/kafka-0.10/bin")
+(setq kafka-cli-config-path "/path/to/kafka-0.10/config")
+```
+
 			  * kafka-cli-bin-path -> ~/apps/kafka-0.10/bin/
 			  * kafka-cli-config-path -> ~/apps/kafka-0.10/config/
 
