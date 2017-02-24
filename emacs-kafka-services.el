@@ -54,7 +54,7 @@
 
 ;;;###autoload
 (defvar kafka-consumer-cli-arguments
-  `("--whitelist" "event.json.*" "--bootstrap-server" ,kafka-url)
+  `("--whitelist" "event.json.*" "--consumer-property" "group.id=emacs-kafka-consumer" "--bootstrap-server" ,kafka-url)
   "Command line arguments to `kafka-console-consumer.sh'.")
 
 ;;;###autoload

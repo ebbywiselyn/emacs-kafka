@@ -64,14 +64,17 @@
     (switch-to-buffer-other-window "*kafka-output*")
     (kafka-topic-mode)))
 
+
 ;;;###autoload
 (defun list-topics ()
   "List all the topics in the zookeeper ."
   (interactive) ;; Refer magit how to write your own list buffer mode?
-  (let* ((buff "*kafka-topics*")
+  (let* ((buff (get-buffer-create "*kafka-topics*"))
 	 (topics-cli (concat kafka-cli-bin-path "/kafka-topics.sh")))
+    (set-buffer buff)
+    (erase-buffer)
     (call-process topics-cli nil buff t "--zookeeper" zookeeper-url "--list")
-    (switch-to-buffer-other-window "*kafka-topics*")
+    (switch-to-buffer buff)
     (kafka-topic-mode)))
 
 ;;;###autoload
@@ -110,11 +113,11 @@
 	     (?c "Create Topics" create-topics)
 	     (?d "Delete Topics" delete-topics)
 	     (?h "Describe Topics" describe-topics)
-	     (?O "Services Overview" emacs-kafka-services)
+	     (?O "Services Overview" emacs-kafka-services-popup)
 	     (?l "List all Topics" list-topics))
   :default-action 'describe-topics)
 
-(magit-define-popup emacs-kafka-services
+(magit-define-popup emacs-kafka-services-popup
   "Some doc"
   :actions '((?z "View Zookeeper" show-zk-server)
 	     (?k "View Kafka" show-kafka-server)
@@ -152,6 +155,7 @@
 (defvar kafka-topic-highlights
        '((
 	  ("Topic\\|PartitionCount\\|Configs\\|Leader\\|Replicas\\|Isr\\|ReplicationFactor\\|Partition\\|Group\\|Broker" . font-lock-keyword-face)
+	  ("\\w*" . font-lock-variable-name-face)
 	  (":\\|,\\|;\\|{\\|}\\|=>\\|@\\|$\\|=" . font-lock-string-face)
 	  )))
 
