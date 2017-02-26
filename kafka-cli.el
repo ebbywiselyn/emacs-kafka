@@ -7,17 +7,25 @@
 (require 'kafka-cli-custom)
 (require 'kafka-cli-services)
 
+
 ;;;###autoload
-(defun kafka-topics-alter (topic) ;;; FIXME
-  "Edit the TOPIC ."
-  (interactive (list (completing-read "Topic:" (--get-topics))))
-  (message "alter topics, not implemented yet %s" topic))
+(defun kafka-topics-alter (topic partition &optional args)
+  "Create the TOPIC with PARTITION and ARGS."
+  (interactive "sTopic: \nsPartition:")
+  (let*
+      ((buff (get-buffer-create "*kafka-output*"))
+       (call-proc-args (list (concat kafka-cli-bin-path "/kafka-topics.sh") nil buff t))
+       (kafka-args (list "--zookeeper" zookeeper-url "--topic" topic "--partition" partition "--replication-factor" "1" "--alter"))
+       (options-args (kafka-topics-arguments)))
+    (apply 'call-process (append call-proc-args options-args kafka-args))
+    (message "Topic: %s, created" topic)
+    (kafka-topics-list)))
+
 
 ;;;###autoload
 (defun kafka-topics-create (topic partition &optional args)
   "Create the TOPIC with PARTITION and ARGS."
   (interactive "sTopic: \nsPartition:")
-  (message "received args: %s" (kafka-topics-arguments))
   (let*
       ((buff (get-buffer-create "*kafka-output*"))
        (call-proc-args (list (concat kafka-cli-bin-path "/kafka-topics.sh") nil buff t))
@@ -92,17 +100,29 @@
   (run-kafkaconsumer 1)
   (emacs-kafka-log-mode))
 
+(magit-define-popup kafka-create-alter-topics-popup
+  "Kafka Create Topics"
+  :options '((?p "--config cleanup.policy=" "[compact|delete]")
+	     (?z "--config compression.type=" "[uncompressed, snappy, lz4, gzip, producer]")
+	     (?x "--config delete.retention.ms=" "[0,...]")
+	     (?X "--config file.delete.delay.ms=" "[0,...]")
+	     (?f "--config flush.messages=" "[0,...]")
+	     (?F "--config flush.ms=" "[0,...]")
+	     (?T "--config follower.replication.throttled.=" "kafka.server.ThrottledReplicaListValidator$@1060b431"))
+  :actions '((?c "Create Topic" kafka-topics-create)
+	     (?a "Alter Topic" kafka-topics-alter))
+  :default-action 'kafka-topics-create)
+
 ;;;###autoload
 (magit-define-popup kafka-topics-popup
-  "Some doc"
-  :options '((?p "--config cleanup.policy=" "Cleanup Policy"))
-  :actions '((?a "Alter Topics" kafka-topics-alter)
-	     (?c "Create Topics" kafka-topics-create)
+  "Kafka Topics Popup."
+  :actions '((?c "Create/Alter Topics" kafka-create-alter-topics-popup)
 	     (?d "Delete Topics" kafka-topics-delete)
 	     (?h "Describe Topics" kafka-topics-describe)
 	     (?O "Services Overview" kafka-services-popup)
 	     (?l "List all Topics" kafka-topics-list))
   :default-action 'describe-topics)
+
 
 (defun kafka-cli ()
   "Start the kafka services and displays the popup."
