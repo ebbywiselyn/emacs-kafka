@@ -2,34 +2,10 @@
 ;;; Commentary:
 ;;; Code:
 
-;;;###autoload
-(defcustom kafka-cli-bin-path "/home/ebby/apps/kafka/kafka/bin/" "Kafka CLI tools path."
-  :type '(string)
-  :group 'emacs-kafka
-  )
-
-;;;###autoload
-(defcustom kafka-cli-config-path "/home/ebby/apps/kafka/kafka/config/" "Kafka CLI config path."
-  :type '(string)
-  :group 'emacs-kafka
-  )
-
-;;;###autoload
-(defcustom zookeeper-url "localhost:2181" "Zookeeper hostname and port."
-  :type '(string)
-  :group 'emacs-kafka
-  )
-
-;;;###autoload
-(defcustom kafka-url "localhost:9092" "Kafka broker hostname and port."
-  :type '(string)
-  :group 'emacs-kafka
-  )
-
 ;; todo check if library exists else issue warning
 (require 'magit-popup)
+(require 'emacs-kafka-custom)
 (require 'emacs-kafka-services)
-
 
 ;;;###autoload
 (defun alter-topics (topic) ;;; FIXME
@@ -116,6 +92,16 @@
 	     (?O "Services Overview" emacs-kafka-services-popup)
 	     (?l "List all Topics" list-topics))
   :default-action 'describe-topics)
+
+(defun kafka-cli ()
+  "Start the kafka services and displays the popup."
+  (interactive)
+  (if (kafka-services-running)
+      (emacs-kafka-popup)
+    (let ((msg (concat "Kafka, Zk services are not started."
+		       "`run-zookeeper', `run-kafkabroker',`run-kafkaconsumer'")))
+      (message "%s" msg)
+      (display-warning :error msg))))
 
 (magit-define-popup emacs-kafka-services-popup
   "Some doc"

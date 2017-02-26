@@ -39,9 +39,6 @@ Magit popup can also be installed through Melpa
 (setq kafka-cli-config-path "/path/to/kafka-0.10/config")
 ```
 
-			  * kafka-cli-bin-path -> ~/apps/kafka-0.10/bin/
-			  * kafka-cli-config-path -> ~/apps/kafka-0.10/config/
-
 	* M-x run-zookeeper RET
 	  Should start the zookeeper service in localhost:2181
 
@@ -54,6 +51,6 @@ Magit popup can also be installed through Melpa
 	You can switch the buffer (Ctrl-x-b) to see if these processes are running.
 
 ## Kafka CLI
-	* M-x emacs-kafka-popup
+	* M-x kafka-cli
 	  gives a popup with different options dealing with topics.
 	* Supports listing, deleting, adding, describing topics, overview of kafka, zk, consumer services.

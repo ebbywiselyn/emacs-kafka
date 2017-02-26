@@ -2,15 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-
-;;;###autoload
-(defvar zookeeper-cli-file-path (concat kafka-cli-bin-path "/zookeeper-server-start.sh")
-  "Path to the program used by `run-zookeeper'.")
-
-;;;###autoload
-(defvar zookeeper-cli-arguments (concat kafka-cli-config-path "/zookeeper.properties")
-  "Command line arguments to `zookeeper-server-start.sh'.")
-
 ;;;###autoload
 (defun run-zookeeper (switch)
   "Run Zookeeper switch to buffer if SWITCH is non 'nil."
@@ -72,7 +63,21 @@
 	 kafka-consumer-cli-file-path 'nil kafka-consumer-cli-arguments)
 	(and switch (switch-to-buffer kafka-consumer-buffer))))))
 
+(defun kafka-services-running ()
+  "Return true if all the kafka services are running."
+  (and (comint-check-proc "*zookeeper*") ;; this has race conditions don't rely on this.
+       (comint-check-proc "*kafka*")
+       (comint-check-proc "*consumer*")
+       t))
 
+(defun start-all-services ()
+  "Start all services."
+  (run-zookeeper 1) ; race condition fix this.
+  (run-kafkabroker 1)
+  (run-kafkaconsumer 1))
+
+(comint-check-proc (get-buffer "*kafka*"))
 (provide 'emacs-kafka-services)
+
 
 ;;; emacs-kafka-services.el ends here
