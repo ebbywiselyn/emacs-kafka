@@ -86,19 +86,19 @@
   "Show Kafka Server."
   (interactive)
   (run-kafkabroker 1)
-  (emacs-kafka-log-mode))
+  (kafka-cli-log-mode))
 
 (defun show-zk-server ()
   "Show Zookeeper Buffer."
   (interactive)
   (run-zookeeper 1)
-  (emacs-kafka-log-mode))
+  (kafka-cli-log-mode))
 
 (defun show-consumer ()
   "Show Consumer Buffer."
   (interactive)
   (run-kafkaconsumer 1)
-  (emacs-kafka-log-mode))
+  (kafka-cli-log-mode))
 
 (magit-define-popup kafka-create-alter-topics-popup
   "Kafka Create Topics"
@@ -145,7 +145,7 @@
   (let ((map (make-keymap)))
     (define-key map (kbd "q") 'bury-buffer)
     map)
-  "Keymap for `emacs-kafka-log-mode'.")
+  "Keymap for `kafka-cli-log-mode'.")
 
 ;; use rx and improvise this
 (defvar kafka-cli-log-mode-highlights
@@ -157,10 +157,10 @@
 
 (define-derived-mode kafka-cli-log-mode comint-mode "KafkaCliLog"
   "Mode for looking at kafka services.
-\\{emacs-kafka-log-mode-map}"
+\\{kafka-cli-log-mode-map}"
   :group 'kafka-topics
-  (use-local-map emacs-kafka-log-mode-map)
-  (setq font-lock-defaults emacs-kafka-log-mode-highlights)
+  (use-local-map kafka-cli-log-mode-map)
+  (setq font-lock-defaults kafka-cli-log-mode-highlights)
   (setq buffer-read-only 'nil))
 
 (defvar kafka-cli-topic-mode-map
