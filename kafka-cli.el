@@ -152,8 +152,7 @@
   '((
      ("INFO\\|WARN" . font-lock-keyword-face)
      ("^\\[\\(.*?\\)\\]" . font-lock-builtin-face)
-     ("\(\\(.*?\\)\)" . font-lock-variable-name-face)
-     )))
+     ("\(\\(.*?\\)\)" . font-lock-variable-name-face))))
 
 (define-derived-mode kafka-cli-log-mode comint-mode "KafkaCliLog"
   "Mode for looking at kafka services.
