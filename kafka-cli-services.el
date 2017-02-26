@@ -1,4 +1,4 @@
-;;; emacs-kafka-services.el --- Summary
+;;; kafka-cli-services.el --- Summary
 ;;; Commentary:
 ;;; Code:
 
@@ -45,7 +45,7 @@
 
 ;;;###autoload
 (defvar kafka-consumer-cli-arguments
-  `("--whitelist" "event.json.*" "--consumer-property" "group.id=emacs-kafka-consumer" "--bootstrap-server" ,kafka-url)
+  `("--whitelist" "event.json.*" "--consumer-property" "group.id=kafka-cli-consumer" "--bootstrap-server" ,kafka-url)
   "Command line arguments to `kafka-console-consumer.sh'.")
 
 ;;;###autoload
@@ -77,7 +77,7 @@
   (run-kafkaconsumer 1))
 
 (comint-check-proc (get-buffer "*kafka*"))
-(provide 'emacs-kafka-services)
+(provide 'kafka-cli-services)
 
 
-;;; emacs-kafka-services.el ends here
+;;; kafka-cli-services.el ends here
