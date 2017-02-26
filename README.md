@@ -45,6 +45,7 @@ Magit popup can also be installed through Melpa
 	You can switch the buffer (Ctrl-x-b) to see if these processes are running.
 
 ## Kafka CLI
-	* M-x kafka-cli
+	* M-x kafka-cli RET
 	  gives a popup with different options dealing with topics.
-	* Supports listing, deleting, adding, describing topics, overview of kafka, zk, consumer services.
+	* Supports listing, deleting, adding, describing topics.
+	* Supports overview of kafka, zk, consumer services in a custom mode.
