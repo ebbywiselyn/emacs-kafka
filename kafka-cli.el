@@ -7,7 +7,6 @@
 (require 'kafka-cli-custom)
 (require 'kafka-cli-services)
 
-
 ;;;###autoload
 (defun kafka-topics-alter (topic partition &optional args)
   "Create the TOPIC with PARTITION and ARGS."
@@ -81,7 +80,6 @@
 	(setq all-topics (split-string (buffer-string)))))
     all-topics))
 
-
 (defun show-kafka-server ()
   "Show Kafka Server."
   (interactive)
@@ -143,8 +141,7 @@
 
 (defvar kafka-cli-log-mode-map
   (let ((map (make-keymap)))
-    (define-key map (kbd "q") 'bury-buffer)
-    map)
+    (define-key map (kbd "q") 'bury-buffer) map)
   "Keymap for `kafka-cli-log-mode'.")
 
 ;; use rx and improvise this
@@ -172,8 +169,7 @@
        '((
 	  ("Topic\\|PartitionCount\\|Configs\\|Leader\\|Replicas\\|Isr\\|ReplicationFactor\\|Partition\\|Group\\|Broker" . font-lock-keyword-face)
 	  ("\\w*" . font-lock-variable-name-face)
-	  (":\\|,\\|;\\|{\\|}\\|=>\\|@\\|$\\|=" . font-lock-string-face)
-	  )))
+	  (":\\|,\\|;\\|{\\|}\\|=>\\|@\\|$\\|=" . font-lock-string-face))))
 
 (define-derived-mode kafka-cli-topic-mode special-mode "KafkaCliTopic"
   "Mode for looking at kafka topics.
