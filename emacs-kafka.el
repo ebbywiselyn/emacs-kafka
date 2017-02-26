@@ -19,7 +19,9 @@
   (interactive "sTopic: \nsPartition:")
   (let* ((topics-cli (concat kafka-cli-bin-path "/kafka-topics.sh"))
 	 (buff (get-buffer-create "*kafka-output*")))
-    (call-process topics-cli nil buff t "--zookeeper" zookeeper-url "--topic" topic "--partition" partition "--replication-factor" "1" "--create")))
+    (call-process topics-cli nil buff t "--zookeeper" zookeeper-url "--topic" topic "--partition" partition "--replication-factor" "1" "--create")
+    (message "Topic: %s, created" topic)
+    (list-topics)))
 
 ;;;###autoload
 (defun delete-topics (topic)
@@ -27,7 +29,9 @@
   (interactive (list (completing-read "Topic:" (--get-topics))))
   (let* ((topics-cli (concat kafka-cli-bin-path "/kafka-topics.sh"))
 	 (buff (get-buffer-create "*kafka-output*")))
-    (call-process topics-cli nil buff t "--zookeeper" zookeeper-url "--topic" topic "--delete")))
+    (call-process topics-cli nil buff t "--zookeeper" zookeeper-url "--topic" topic "--delete")
+    (message "Topic: %s, deleted" topic)
+    (list-topics)))
 
 ;;;###autoload
 (defun describe-topics (topic)
