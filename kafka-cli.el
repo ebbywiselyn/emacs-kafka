@@ -18,7 +18,7 @@
        (kafka-args (list "--zookeeper" zookeeper-url "--topic" topic "--partition" partition "--replication-factor" "1" "--alter"))
        (options-args (kafka-topics-arguments)))
     (apply 'call-process (append call-proc-args options-args kafka-args))
-    (message "Topic: %s, created" topic)
+    (message "Topic: %s, altered" topic)
     (kafka-topics-list)))
 
 
