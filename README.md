@@ -5,11 +5,7 @@ Starting a local kafka-broker, zookeeper, and console consumer/producer in emacs
 
 Using magit-popup to play around kafka-topics, consumer-groups CLI commands.
 
-
-![Alt text](/images/popup.png?raw=true "Kafka Popup Screen")
-![Alt text](/images/describe.jpg?raw=true "Describe Topic Screen")
-![Alt text](/images/services.png?raw=true "Services")
-
+![Alt text](/images/all.png?raw=true "Screenshots")
 
 ## Requirements
 
