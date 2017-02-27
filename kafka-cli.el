@@ -90,11 +90,26 @@
   (run-zookeeper 1)
   (kafka-cli-log-mode))
 
-(defun show-consumer ()
+(defun show-kafka-consumer ()
   "Show Consumer Buffer."
   (interactive)
   (run-kafkaconsumer 1)
-  (kafka-cli-log-mode)))
+  (kafka-cli-log-mode))
+
+(defun show-all-kafka-services ()
+  "Show all buffers FIXME load the mode."
+  (interactive)
+  (progn
+    (run-kafkabroker 'nil)
+    (run-zookeeper 'nil)
+    (run-kafkaconsumer 'nil)
+    (let ((kafka (get-buffer "*kafka*"))
+	  (zookeeper (get-buffer "*zookeeper*"))
+	  (consumer (get-buffer "*consumer*")))
+      (display-buffer-in-side-window kafka '((side . bottom) (slot . -3)))
+      (display-buffer-in-side-window zookeeper '((side . bottom) (slot . -2)))
+      (display-buffer-in-side-window consumer '((side . bottom) (slot . -1))))))
+
 
 (magit-define-popup kafka-create-alter-topics-popup
   "Kafka Create Topics"
@@ -134,7 +149,8 @@
   "Some doc"
   :actions '((?z "View Zookeeper" show-zk-server)
 	     (?k "View Kafka" show-kafka-server)
-	     (?c "View Consumer Status" show-consumer))
+	     (?c "View Consumer Status" show-kafka-consumer)
+	     (?A "View All Services" show-all-kafka-services))
   :default-action 'show-kafka-server)
 
 (defvar kafka-cli-log-mode-map
