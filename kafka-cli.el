@@ -94,7 +94,7 @@
   "Show Consumer Buffer."
   (interactive)
   (run-kafkaconsumer 1)
-  (kafka-cli-log-mode))
+  (kafka-cli-log-mode)))
 
 (magit-define-popup kafka-create-alter-topics-popup
   "Kafka Create Topics"
@@ -149,7 +149,7 @@
      ("^\\[\\(.*?\\)\\]" . font-lock-builtin-face)
      ("\(\\(.*?\\)\)" . font-lock-variable-name-face))))
 
-(define-derived-mode kafka-cli-log-mode coimnt-mode "KafkaCliLog"
+(define-derived-mode kafka-cli-log-mode comint-mode "KafkaCliLog"
   "Mode for looking at kafka services.
 \\{kafka-cli-log-mode-map}"
   :group 'kafka-topics
