@@ -21,8 +21,6 @@
     (message "Topic: %s, altered" topic)
     (kafka-topics-list)))
 
-;(apply 'call-process (list "/home/ebby/apps/kafka/kafka/bin//kafka-topics.sh" nil "*kafka-output*" t "--zookeeper" "localhost:2181" "--create" "--topic" "t13" "--partition" "3" "--replication-factor" "1" "--config" "cleanup.policy=compact" "--config" "compression.type=lz4"))
-
 ;;;###autoload
 (defun kafka-topics-create (topic partition)
   "Create the TOPIC with PARTITION and ARGS."
@@ -37,7 +35,6 @@
     (message "Topic: %s, created" topic)
     (kafka-topics-list)))
 
-
 ;;;###autoload
 (defun kafka-topics-delete (topic)
   "Delete the TOPIC ."
@@ -47,7 +44,6 @@
     (call-process topics-cli nil buff t "--zookeeper" zookeeper-url "--topic" topic "--delete")
     (message "Topic: %s, deleted" topic)
     (kafka-topics-list)))
-
 
 ;;;###autoload
 (defun kafka-topics-describe (topic &optional args)
@@ -59,7 +55,6 @@
 		  "--zookeeper" zookeeper-url "--topic" topic "--describe")
     (switch-to-buffer-other-window "*kafka-output*")
     (kafka-cli-topic-mode)))
-
 
 ;;;###autoload
 (defun kafka-topics-list ()
