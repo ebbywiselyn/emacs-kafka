@@ -15,11 +15,11 @@ Using magit-popup to play around kafka-topics, consumer-groups CLI commands.
 Magit popup can also be installed through Melpa
 
 ## Install
-	Clone the repository and add this in your .emacs
+	Clone the repository and append the following in your ~/.emacs
 
 ```
-(add-to-list "/PATH/emacs-kafka")
-(require 'emacs-kafka)
+(add-to-list "/path/to/emacs-kafka")
+(require 'kafka-cli)
 ```
 	Replace PATH with where you cloned it.
 
