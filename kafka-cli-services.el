@@ -14,8 +14,9 @@
 	(apply 'make-comint-in-buffer "*zookeeper*"
 	       zookeeper-buffer zookeeper-cli-file-path
 	       'nil (list zookeeper-cli-arguments))
-	(and switch (switch-to-buffer zookeeper-buffer)))
-      )))
+	(and switch (switch-to-buffer zookeeper-buffer))))
+      (with-current-buffer zookeeper-buffer
+	(kafka-cli-log-mode))))
 
 ;;;###autoload
 (defvar kafka-broker-cli-file-path (concat kafka-cli-bin-path "/kafka-server-start.sh")
@@ -37,7 +38,9 @@
 	(apply
 	 'make-comint-in-buffer "*kafka*" kafka-broker-buffer
 	 kafka-broker-cli-file-path 'nil (list kafka-broker-cli-arguments))
-	(and switch (switch-to-buffer kafka-broker-buffer))))))
+	(and switch (switch-to-buffer kafka-broker-buffer))))
+      (with-current-buffer kafka-broker-buffer
+	(kafka-cli-log-mode))))
 
 ;;;###autoload
 (defvar kafka-consumer-cli-file-path (concat kafka-cli-bin-path "/kafka-console-consumer.sh")
@@ -53,7 +56,6 @@
   "Run Kafka Consumer, switch to buffer if SWITCH is non 'nil."
   (interactive "i")
   (let* ((kafka-consumer-buffer-name "*consumer*")
-
 	 (kafka-consumer-buffer (get-buffer-create kafka-consumer-buffer-name)))
     (if (comint-check-proc kafka-consumer-buffer)
 	(and switch (switch-to-buffer kafka-consumer-buffer))
@@ -61,7 +63,9 @@
 	(apply
 	 'make-comint-in-buffer "*consumer*" kafka-consumer-buffer
 	 kafka-consumer-cli-file-path 'nil kafka-consumer-cli-arguments)
-	(and switch (switch-to-buffer kafka-consumer-buffer))))))
+	(and switch (switch-to-buffer kafka-consumer-buffer))))
+    (with-current-buffer kafka-consumer-buffer
+      (kafka-cli-log-mode))))
 
 (defun kafka-services-running ()
   "Return true if all the kafka services are running."
