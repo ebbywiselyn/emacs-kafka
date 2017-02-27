@@ -9,7 +9,7 @@
 
 ;;;###autoload
 (defun kafka-topics-alter (topic)
-  "Create the TOPIC with PARTITION and ARGS."
+  "Alter topic TOPIC."
   (interactive (list (completing-read "Topic:" (--get-topics))))
   (let*
       ((buff (get-buffer-create "*kafka-output*"))
@@ -23,7 +23,7 @@
 
 ;;;###autoload
 (defun kafka-topics-create (topic partition)
-  "Create the TOPIC with PARTITION and ARGS."
+  "Create the TOPIC with PARTITION"
   (interactive "sTopic: \nsPartition:")
   (let*
       ((buff (get-buffer-create "*kafka-output*"))
