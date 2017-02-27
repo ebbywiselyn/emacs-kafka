@@ -113,7 +113,7 @@
 
 (magit-define-popup kafka-create-alter-topics-popup
   "Kafka Create Topics"
-  :options '((?p "[compact|delete]" "--config cleanup.policy=")
+  :options '((?p "[compact, delete]" "--config cleanup.policy=")
 	     (?z "[uncompressed, snappy, lz4, gzip, producer]" "--config compression.type=")
 	     (?x "[0,...]" "--config delete.retention.ms=")
 	     (?X "[0,...]" "--config file.delete.delay.ms=")
