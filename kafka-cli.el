@@ -8,29 +8,32 @@
 (require 'kafka-cli-services)
 
 ;;;###autoload
-(defun kafka-topics-alter (topic partition &optional args)
+(defun kafka-topics-alter (topic)
   "Create the TOPIC with PARTITION and ARGS."
-  (interactive "sTopic: \nsPartition:")
+  (interactive (list (completing-read "Topic:" (--get-topics))))
   (let*
       ((buff (get-buffer-create "*kafka-output*"))
        (call-proc-args (list (concat kafka-cli-bin-path "/kafka-topics.sh") nil buff t))
-       (kafka-args (list "--zookeeper" zookeeper-url "--topic" topic "--partition" partition "--replication-factor" "1" "--alter"))
-       (options-args (kafka-topics-arguments)))
-    (apply 'call-process (append call-proc-args options-args kafka-args))
+       (kafka-args (list "--zookeeper" zookeeper-url "--alter" "--topic" topic))
+       (options-args (apply 'append (mapcar 'split-string (kafka-create-alter-topics-arguments)))))
+    (message "alter: %s" (append call-proc-args kafka-args options-args))
+    (apply 'call-process (append call-proc-args kafka-args options-args))
     (message "Topic: %s, altered" topic)
     (kafka-topics-list)))
 
+;(apply 'call-process (list "/home/ebby/apps/kafka/kafka/bin//kafka-topics.sh" nil "*kafka-output*" t "--zookeeper" "localhost:2181" "--create" "--topic" "t13" "--partition" "3" "--replication-factor" "1" "--config" "cleanup.policy=compact" "--config" "compression.type=lz4"))
 
 ;;;###autoload
-(defun kafka-topics-create (topic partition &optional args)
+(defun kafka-topics-create (topic partition)
   "Create the TOPIC with PARTITION and ARGS."
   (interactive "sTopic: \nsPartition:")
   (let*
       ((buff (get-buffer-create "*kafka-output*"))
        (call-proc-args (list (concat kafka-cli-bin-path "/kafka-topics.sh") nil buff t))
-       (kafka-args (list "--zookeeper" zookeeper-url "--topic" topic "--partition" partition "--replication-factor" "1" "--create"))
-       (options-args (kafka-topics-arguments)))
-    (apply 'call-process (append call-proc-args options-args kafka-args))
+       (kafka-args (list "--zookeeper" zookeeper-url "--create" "--topic" topic "--partition" partition "--replication-factor" "1"))
+       (options-args (apply 'append (mapcar 'split-string (kafka-create-alter-topics-arguments)))))
+    (message "arguments: %S" (append call-proc-args kafka-args options-args))
+    (apply 'call-process (append call-proc-args kafka-args options-args))
     (message "Topic: %s, created" topic)
     (kafka-topics-list)))
 
@@ -100,13 +103,13 @@
 
 (magit-define-popup kafka-create-alter-topics-popup
   "Kafka Create Topics"
-  :options '((?p "--config cleanup.policy=" "[compact|delete]")
-	     (?z "--config compression.type=" "[uncompressed, snappy, lz4, gzip, producer]")
-	     (?x "--config delete.retention.ms=" "[0,...]")
-	     (?X "--config file.delete.delay.ms=" "[0,...]")
-	     (?f "--config flush.messages=" "[0,...]")
-	     (?F "--config flush.ms=" "[0,...]")
-	     (?T "--config follower.replication.throttled.=" "kafka.server.ThrottledReplicaListValidator$@1060b431"))
+  :options '((?p "[compact|delete]" "--config cleanup.policy=")
+	     (?z "[uncompressed, snappy, lz4, gzip, producer]" "--config compression.type=")
+	     (?x "[0,...]" "--config delete.retention.ms=")
+	     (?X "[0,...]" "--config file.delete.delay.ms=")
+	     (?f "[0,...]" "--config flush.messages=")
+	     (?F "[0,...]" "--config flush.ms=")
+	     (?T "kafka.server.ThrottledReplicaListValidator$@1060b431" "--config follower.replication.throttled.="))
   :actions '((?c "Create Topic" kafka-topics-create)
 	     (?a "Alter Topic" kafka-topics-alter))
   :default-action 'kafka-topics-create)
@@ -151,7 +154,7 @@
      ("^\\[\\(.*?\\)\\]" . font-lock-builtin-face)
      ("\(\\(.*?\\)\)" . font-lock-variable-name-face))))
 
-(define-derived-mode kafka-cli-log-mode comint-mode "KafkaCliLog"
+(define-derived-mode kafka-cli-log-mode coimnt-mode "KafkaCliLog"
   "Mode for looking at kafka services.
 \\{kafka-cli-log-mode-map}"
   :group 'kafka-topics
