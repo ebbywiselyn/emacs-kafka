@@ -32,7 +32,6 @@ Magit popup can also be installed through Melpa
 (setq kafka-cli-bin-path "/path/to/kafka-0.10/bin")
 (setq kafka-cli-config-path "/path/to/kafka-0.10/config")
 ```
-
 	* M-x run-zookeeper RET
 	  Should start the zookeeper service in localhost:2181
 
