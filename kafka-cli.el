@@ -23,7 +23,7 @@
 
 ;;;###autoload
 (defun kafka-topics-create (topic partition)
-  "Create the TOPIC with PARTITION"
+  "Create the TOPIC with PARTITION."
   (interactive "sTopic: \nsPartition:")
   (let*
       ((buff (get-buffer-create "*kafka-output*"))
