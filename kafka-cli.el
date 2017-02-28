@@ -54,6 +54,7 @@
     (call-process topics-cli nil buff t
 		  "--zookeeper" zookeeper-url "--topic" topic "--describe")
     (switch-to-buffer-other-window "*kafka-output*")
+    (end-of-buffer) ;; to append more output
     (kafka-cli-topic-mode)))
 
 ;;;###autoload
