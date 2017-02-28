@@ -185,13 +185,42 @@
 	  ("\\w*" . font-lock-variable-name-face)
 	  (":\\|,\\|;\\|{\\|}\\|=>\\|@\\|$\\|=" . font-lock-string-face))))
 
+(defun helper-topics-describe ()
+  "."
+  (interactive)
+  (kafka-topics-describe (buffer-substring (line-beginning-position) (line-end-position))))
+
+;; Clean this up
+(defun kafka-cli-topic-mode-properties ()
+  "."
+  (interactive)
+  "."
+(let* ((more-lines t)
+       (map (make-sparse-keymap))
+       (start)
+       (end))
+  (with-current-buffer (get-buffer-create "*kafka-topics*")
+    (define-key map (kbd "C-m") 'helper-topics-describe)
+    (beginning-of-buffer)
+    (while more-lines
+      (setq start (line-beginning-position))
+      (setq end (line-end-position))
+      (message "field: %s" (field-string-no-properties))
+      (put-text-property start end 'keymap map)
+      (message "processing %s %s" start end)
+      (put-text-property start end 'keymap map)
+      (add-text-properties start end '(topic nil))
+      (setq more-lines (= 0 (forward-line 1)))))))
+
 (define-derived-mode kafka-cli-topic-mode special-mode "KafkaCliTopic"
   "Mode for looking at kafka topics.
 \\{kafka-cli-topic-mode-map}"
   :group 'kafka-cli-topics
   (use-local-map kafka-cli-topic-mode-map)
   (setq font-lock-defaults kafka-cli-topic-highlights)
-  (setq buffer-read-only 'nil))
+  (setq buffer-read-only 'nil)
+  (kafka-cli-topic-mode-properties)
+  (message "mode activated"))
 
 (provide 'kafka-cli)
 
