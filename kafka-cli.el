@@ -6,6 +6,7 @@
 (require 'magit-popup)
 (require 'kafka-cli-custom)
 (require 'kafka-cli-services)
+(require 'kafka-cli-sections)
 
 ;;;###autoload
 (defun kafka-topics-alter (topic)
@@ -63,6 +64,7 @@
   (interactive) ;; Refer magit how to write your own list buffer mode?
   (let* ((buff (get-buffer-create "*kafka-topics*"))
 	 (topics-cli (concat kafka-cli-bin-path "/kafka-topics.sh")))
+    (setq buffer-read-only 'nil)
     (set-buffer buff)
     (erase-buffer)
     (call-process topics-cli nil buff t "--zookeeper" zookeeper-url "--list")
@@ -186,32 +188,37 @@
 	  ("\\w*" . font-lock-variable-name-face)
 	  (":\\|,\\|;\\|{\\|}\\|=>\\|@\\|$\\|=" . font-lock-string-face))))
 
-(defun helper-topics-describe ()
+
+;; replace kafka-topics-describe with this function
+(defun kafka-topics-describe-helper ()
   "."
   (interactive)
-  (kafka-topics-describe (buffer-substring (line-beginning-position) (line-end-position))))
+  (let* ((topic (buffer-substring (line-beginning-position) (line-end-position)))
+	 (output (process-lines "~/apps/kafka/kafka/bin/kafka-topics.sh" "--topic" topic "--zookeeper" "localhost:2181" "--describe"))
+	 (desc))
+    (save-excursion
+      (topic-desc-section-toggle output))))
 
 ;; Clean this up
-(defun kafka-cli-topic-mode-properties ()
-  "."
-  (interactive)
-  "."
-(let* ((more-lines t)
-       (map (make-sparse-keymap))
-       (start)
-       (end))
-  (with-current-buffer (get-buffer-create "*kafka-topics*")
-    (define-key map (kbd "C-m") 'helper-topics-describe)
-    (beginning-of-buffer)
-    (while more-lines
-      (setq start (line-beginning-position))
-      (setq end (line-end-position))
-      (message "field: %s" (field-string-no-properties))
-      (put-text-property start end 'keymap map)
-      (message "processing %s %s" start end)
-      (put-text-property start end 'keymap map)
-      (add-text-properties start end '(topic nil))
-      (setq more-lines (= 0 (forward-line 1)))))))
+ (defun kafka-cli-topic-mode-properties ()
+   "."
+   (interactive)
+   "."
+   (let* ((more-lines t)
+	  (map (make-sparse-keymap))
+	  (start)
+	  (end))
+     (with-current-buffer (get-buffer-create "*kafka-topics*")
+       (define-key map (kbd "C-m") 'kafka-topics-describe-helper)
+       (beginning-of-buffer)
+       (while more-lines
+	 (setq start (line-beginning-position))
+	 (setq end (line-end-position))
+	 (put-text-property start end 'keymap map)
+					;(message "processing %s %s" start end)
+					;(put-text-property start end 'keymap map)
+	 (add-text-properties start end '(topic t))
+	 (setq more-lines (= 0 (forward-line 1)))))))
 
 (define-derived-mode kafka-cli-topic-mode special-mode "KafkaCliTopic"
   "Mode for looking at kafka topics.
@@ -221,7 +228,7 @@
   (setq font-lock-defaults kafka-cli-topic-highlights)
   (setq buffer-read-only 'nil)
   (kafka-cli-topic-mode-properties)
-  (message "mode activated"))
+  (setq buffer-read-only t))
 
 (provide 'kafka-cli)
 
