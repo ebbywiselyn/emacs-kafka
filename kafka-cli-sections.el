@@ -18,9 +18,7 @@
   (let ((result))
     (dolist (elt desc result)
       (if (not (equal (car elt) "Topic"))
-	  (push elt result)
-	)
-      )))
+	  (push elt result)))))
 
 (defun insert-topic-desc-section (desc)
   "DESC ."
