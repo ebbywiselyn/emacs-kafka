@@ -189,7 +189,7 @@
 	  (":\\|,\\|;\\|{\\|}\\|=>\\|@\\|$\\|=" . font-lock-string-face))))
 
 
-;; replace kafka-topics-describe with this function
+;; replace kafka-topics-describe with this function, remove hardcoded path
 (defun kafka-topics-describe-helper ()
   "."
   (interactive)
