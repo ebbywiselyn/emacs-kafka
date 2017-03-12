@@ -20,6 +20,7 @@
       (if (not (equal (car elt) "Topic"))
 	  (push elt result)))))
 
+;;;###autoload
 (defun insert-topic-desc-section (desc)
   "Insert the topic description DESC at the current point."
   (dolist (itr desc)
@@ -28,6 +29,7 @@
       (add-text-properties (point-at-bol) (point) '(topic-desc t)) ;; TODO make this as a face
       (insert "\n"))))
 
+;;;###autoload
 (defun delete-topic-desc-section (desc)
   "Delete the topic description DESC starting from the current point."
   (dolist (itr desc)
@@ -35,6 +37,7 @@
       (delete-region (point-at-bol) (point-at-eol))
       (kill-line))))
 
+;;;###autoload
 (defun topic-desc-section-toggle (topic-desc-raw-output)
   "TOPIC-DESC-RAW-OUTPUT."
   (let ((desc (--filter-topic-desc (--parse-topic topic-desc-raw-output))))
@@ -45,6 +48,7 @@
       (insert-topic-desc-section desc))
     (setq buffer-read-only t)))
 
+;;;###autoload
 (defun goto-previous-topic ()
   "."
   (interactive)
@@ -53,6 +57,7 @@
 	(progn (goto-char topic-ptr)
 	       (beginning-of-line)))))
 
+;;;###autoload
 (defun goto-next-topic ()
   "."
   (interactive)
@@ -60,6 +65,13 @@
     (if topic-ptr
 	(progn (goto-char topic-ptr)
 	       (beginning-of-line)))))
+
+;;;###autoload
+(defun kafka-cli-section-goto-topic (topic)
+  "Move Point to topic TOPIC."
+  (goto-char (point-min))
+  (search-forward topic)
+  (goto-char (point-at-bol)))
 
 
 (provide 'kafka-cli-sections)
