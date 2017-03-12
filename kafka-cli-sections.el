@@ -49,7 +49,7 @@
     (setq buffer-read-only t)))
 
 ;;;###autoload
-(defun goto-previous-topic ()
+(defun kafka-cli-section-goto-previous-topic ()
   "."
   (interactive)
   (let ((topic-ptr (previous-single-property-change (point) 'topic)))
@@ -58,7 +58,7 @@
 	       (beginning-of-line)))))
 
 ;;;###autoload
-(defun goto-next-topic ()
+(defun kafka-cli-section-goto-next-topic ()
   "."
   (interactive)
   (let ((topic-ptr (next-single-property-change (point) 'topic)))
@@ -70,7 +70,7 @@
 (defun kafka-cli-section-goto-topic (topic)
   "Move Point to topic TOPIC."
   (goto-char (point-min))
-  (search-forward topic)
+  (search-forward topic) ;; Fix edge cases, hint: looking-at fn
   (goto-char (point-at-bol)))
 
 
