@@ -81,6 +81,7 @@
   (run-kafkaconsumer 1))
 
 (comint-check-proc (get-buffer "*kafka*"))
+
 (provide 'kafka-cli-services)
 
 
