@@ -27,7 +27,7 @@
     (progn
       (insert " " (concat (car itr) ":" (cadr itr)))
       (add-text-properties (point-at-bol) (point) '(topic-desc t)) ;; TODO make this as a face
-      (insert "\n"))))
+      (insert ?\n))))
 
 ;;;###autoload
 (defun delete-topic-desc-section (desc)
