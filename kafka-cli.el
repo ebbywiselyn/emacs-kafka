@@ -45,16 +45,12 @@
     (kafka-topics-list)))
 
 ;;;###autoload
-(defun kafka-topics-describe (topic &optional args)
-  "Describe the topic partition, replication factor, configs of TOPIC ARGS."
+(defun kafka-topics-describe (topic)
+  "Describe the topic TOPIC in the kafka-topics section."
   (interactive (list (completing-read "Topic:" (--get-topics))))
-  (let* ((topics-cli (concat kafka-cli-bin-path "/kafka-topics.sh"))
-	 (buff (get-buffer-create "*kafka-output*")))
-    (call-process topics-cli nil buff t
-		  "--zookeeper" zookeeper-url "--topic" topic "--describe")
-    (switch-to-buffer-other-window "*kafka-output*")
-    (end-of-buffer) ;; to append more output
-    (kafka-cli-topic-mode)))
+  (kafka-topics-list)
+  (kafka-cli-section-goto-topic topic)
+  (kafka-topics-describe-at-point))
 
 ;;;###autoload
 (defun kafka-topics-list ()
@@ -62,8 +58,8 @@
   (interactive) ;; Refer magit how to write your own list buffer mode?
   (let* ((buff (get-buffer-create "*kafka-topics*"))
 	 (topics-cli (concat kafka-cli-bin-path "/kafka-topics.sh")))
-    (setq buffer-read-only 'nil)
     (set-buffer buff)
+    (setq buffer-read-only 'nil)
     (erase-buffer)
     (call-process topics-cli nil buff t "--zookeeper" zookeeper-url "--list")
     (switch-to-buffer buff)
@@ -133,7 +129,7 @@
 	     (?h "Describe Topics" kafka-topics-describe)
 	     (?O "Services Overview" kafka-services-popup)
 	     (?l "List all Topics" kafka-topics-list))
-  :default-action 'describe-topics)
+  :default-action 'kafka-topics-list)
 
 
 (defun kafka-cli ()
@@ -187,12 +183,12 @@
 	  (":\\|,\\|;\\|{\\|}\\|=>\\|@\\|$\\|=" . font-lock-string-face))))
 
 
-;; replace kafka-topics-describe with this function, remove hardcoded path
-(defun kafka-topics-describe-helper ()
+(defun kafka-topics-describe-at-point ()
   "."
   (interactive)
   (let* ((topic (buffer-substring (line-beginning-position) (line-end-position)))
-	 (output (process-lines "~/apps/kafka/kafka/bin/kafka-topics.sh" "--topic" topic "--zookeeper" "localhost:2181" "--describe"))
+	 (topics-cli (concat kafka-cli-bin-path "/kafka-topics.sh"))
+	 (output (process-lines topics-cli "--topic" topic "--zookeeper" zookeeper-url "--describe"))
 	 (desc))
     (save-excursion
       (topic-desc-section-toggle output))))
@@ -201,13 +197,12 @@
  (defun kafka-cli-topic-mode-properties ()
    "."
    (interactive)
-   "."
    (let* ((more-lines t)
 	  (map (make-sparse-keymap))
 	  (start)
 	  (end))
      (with-current-buffer (get-buffer-create "*kafka-topics*")
-       (define-key map (kbd "C-m") 'kafka-topics-describe-helper)
+       (define-key map (kbd "C-m") 'kafka-topics-describe-at-point)
        (beginning-of-buffer)
        (while more-lines
 	 (setq start (line-beginning-position))
