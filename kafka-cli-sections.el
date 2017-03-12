@@ -21,7 +21,7 @@
 	  (push elt result)))))
 
 (defun insert-topic-desc-section (desc)
-  "DESC ."
+  "Insert the topic description DESC at the current point."
   (dolist (itr desc)
     (progn
       (insert " " (concat (car itr) ":" (cadr itr)))
@@ -29,7 +29,7 @@
       (insert "\n"))))
 
 (defun delete-topic-desc-section (desc)
-  "DESC."
+  "Delete the topic description DESC starting from the current point."
   (dolist (itr desc)
     (progn
       (delete-region (point-at-bol) (point-at-eol))
