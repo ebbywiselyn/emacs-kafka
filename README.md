@@ -47,4 +47,4 @@ Magit popup can also be installed through Melpa
 	* M-x kafka-cli RET
 	  gives a popup with different options dealing with topics.
 	* Supports listing, deleting, adding, describing topics.
-	* Supports overview of kafka, zk, consumer services in a custom mode.
+	* Supports overview of kafka, zk, consumer processes in a custom mode.
