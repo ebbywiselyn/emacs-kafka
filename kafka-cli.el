@@ -65,8 +65,7 @@
     (switch-to-buffer buff)
     (kafka-cli-topic-mode)))
 
-;;;###autoload
-(defun --get-topics (&optional update) ;; Name it like a private function
+(defun --get-topics (&optional update)
   "UPDATE."
   (if (or  (not (boundp 'all-topics)) update)
     (save-excursion
@@ -92,6 +91,21 @@
 	 (output (kafka-consumer-get-offset topic)))
     (save-excursion
       (consumer-desc-section-toggle output))))
+
+;; move some raw formatting of output from sections to here.
+(defun kafka-topic-get-desc (topic)
+  "TOPIC."
+  (let* ((topics-cli (concat kafka-cli-bin-path "/kafka-topics.sh")))
+    (process-lines topics-cli "--topic" topic "--zookeeper" zookeeper-url "--describe")))
+
+;;;###autoload
+(defun kafka-topics-describe-at-point ()
+  "."
+  (interactive)
+  (let* ((topic (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
+    (save-excursion
+      (topic-desc-section-toggle (kafka-topic-get-desc topic)))))
+
 
 (defun show-kafka-server ()
   "Show Kafka Server."
