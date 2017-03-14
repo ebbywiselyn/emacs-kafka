@@ -34,7 +34,7 @@
   "Delete the topic description DESC starting from the current point."
   (dolist (itr desc)
     (progn
-      (delete-region (point-at-bol) (point-at-eol))
+      (delete-region (point-at-bol) (point-at-eol)) ;; better way?
       (kill-line))))
 
 ;;;###autoload
@@ -73,6 +73,30 @@
   (search-forward topic) ;; Fix edge cases, hint: looking-at fn
   (goto-char (point-at-bol)))
 
+;;;###autoload
+(defun delete-consumer-desc-section (consumer-desc)
+  "CONSUMER-DESC."
+  (dolist (elt consumer-desc)
+      (delete-region (point-at-bol) (point-at-eol)) ;; better way?
+      (kill-line)))
+
+;;;###autoload
+(defun insert-consumer-desc-section (consumer-desc)
+  "CONSUMER-DESC."
+  (dolist (elt consumer-desc)
+    (insert " " (concat (car elt) ":" (cdr elt)))
+    (add-text-properties (point-at-bol) (point) '(consumer-desc t)) ;; TODO make this as face
+    (insert ?\n)))
+
+;;;###autoload
+(defun consumer-desc-section-toggle (consumer-desc-output)
+  "CONSUMER-DESC-OUTPUT."
+  (forward-line 1)
+  (setq buffer-read-only 'nil)
+  (if (text-property-any (point-at-bol) (point-at-eol) 'consumer-desc t)
+	(delete-consumer-desc-section consumer-desc-output)
+      (insert-consumer-desc-section consumer-desc-output))
+  (setq buffer-read-only t))
 
 (provide 'kafka-cli-sections)
 ;;; kafka-cli-sections.el ends here
