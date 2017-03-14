@@ -75,6 +75,24 @@
 	(setq all-topics (split-string (buffer-string)))))
     all-topics))
 
+(defun kafka-consumer-get-offset (topic)
+  "TOPIC."
+  (message "topic: %S" topic)
+  (let* ((consumer-cli (concat kafka-cli-bin-path "kafka-consumer-offset-checker.sh"))
+	 (output (process-lines consumer-cli "--topic" topic "--zookeeper" zookeeper-url "--group" "kafka-cli-consumer"))
+	 (keys (split-string (cadr output)))
+	 (values (split-string (caddr output))))
+    (mapcar* #'cons keys values)))
+
+;;;###autoload
+(defun kafka-consumer-describe-at-point ()
+  "."
+  (interactive)
+  (let* ((topic (buffer-substring-no-properties (line-beginning-position) (line-end-position)))
+	 (output (kafka-consumer-get-offset topic)))
+    (save-excursion
+      (consumer-desc-section-toggle output))))
+
 (defun show-kafka-server ()
   "Show Kafka Server."
   (interactive)
@@ -178,29 +196,9 @@
 
 (defvar kafka-cli-topic-highlights
        '((
-	  ("Topic\\|PartitionCount\\|Configs\\|Leader\\|Replicas\\|Isr\\|ReplicationFactor\\|Partition\\|Group\\|Broker" . font-lock-keyword-face)
+	  ("Topic\\|PartitionCount\\|Configs\\|Leader\\|Replicas\\|Isr\\|ReplicationFactor\\|Partition\\|Group\\|Broker\\|Pid\\|Offset\\|logSize\\|Lag\\|Owner" . font-lock-keyword-face)
 	  ("\\w*" . font-lock-variable-name-face)
 	  (":\\|,\\|;\\|{\\|}\\|=>\\|@\\|$\\|=" . font-lock-string-face))))
-
-
-(defun kafka-consumer-describe-at-point ()
-  "."
-  (interactive)
-  (let* ((topic (buffer-substring (line-beginning-position) (line-end-position)))
-	 (consumer-cli (concat kafka-cli-bin-path "kafka-consumer-offset-checker.sh"))
-	 (output (process-lines consumer-cli "--topic" topic "--zookeeper" zookeeper-url "--group" "kafka-cli-consumer")))
-    (save-excursion
-      (message "output:%s" output))))
-
-(defun kafka-topics-describe-at-point ()
-  "."
-  (interactive)
-  (let* ((topic (buffer-substring (line-beginning-position) (line-end-position)))
-	 (topics-cli (concat kafka-cli-bin-path "/kafka-topics.sh"))
-	 (output (process-lines topics-cli "--topic" topic "--zookeeper" zookeeper-url "--describe"))
-	 (desc))
-    (save-excursion
-      (topic-desc-section-toggle output))))
 
 ;; Clean this up
  (defun kafka-cli-topic-mode-properties ()
@@ -212,6 +210,7 @@
 	  (end))
      (with-current-buffer (get-buffer-create "*kafka-topics*")
        (define-key map (kbd "C-m") 'kafka-topics-describe-at-point)
+       (define-key map (kbd "C-o") 'kafka-consumer-describe-at-point)
        (beginning-of-buffer)
        (while more-lines
 	 (setq start (line-beginning-position))
