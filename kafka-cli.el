@@ -183,6 +183,15 @@
 	  (":\\|,\\|;\\|{\\|}\\|=>\\|@\\|$\\|=" . font-lock-string-face))))
 
 
+(defun kafka-consumer-describe-at-point ()
+  "."
+  (interactive)
+  (let* ((topic (buffer-substring (line-beginning-position) (line-end-position)))
+	 (consumer-cli (concat kafka-cli-bin-path "kafka-consumer-offset-checker.sh"))
+	 (output (process-lines consumer-cli "--topic" topic "--zookeeper" zookeeper-url "--group" "kafka-cli-consumer")))
+    (save-excursion
+      (message "output:%s" output))))
+
 (defun kafka-topics-describe-at-point ()
   "."
   (interactive)
