@@ -161,7 +161,8 @@
 	     (?F "[0,...]" "--config flush.ms=")
 	     (?T "kafka.server.ThrottledReplicaListValidator$@1060b431" "--config follower.replication.throttled.="))
   :actions '((?c "Create Topic" kafka-topics-create)
-	     (?a "Alter Topic" kafka-topics-alter))
+	     (?a "Alter Topic" kafka-topics-alter)
+	     (?q "Back" bury-buffer))
   :default-action 'kafka-topics-create)
 
 ;;;###autoload
@@ -171,7 +172,8 @@
 	     (?d "Delete Topics" kafka-topics-delete)
 	     (?h "Describe Topics" kafka-topics-describe)
 	     (?O "Services Overview" kafka-services-popup)
-	     (?l "List all Topics" kafka-topics-list))
+	     (?l "List all Topics" kafka-topics-list)
+	     (?q "Back" bury-buffer))
   :default-action 'kafka-topics-list)
 
 
