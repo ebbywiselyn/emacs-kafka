@@ -92,6 +92,17 @@
     (save-excursion
       (consumer-desc-section-toggle output))))
 
+
+;;;###autoload
+(defun kafka-topics-delete-at-point ()
+  "."
+  (interactive)
+  (let* ((topic (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
+    (if (yes-or-no-p (format "Delete topic: %s" topic))
+	(kafka-topics-delete topic)
+      (message "(No deletions performed)")
+      )))
+
 ;; move some raw formatting of output from sections to here.
 (defun kafka-topic-get-desc (topic)
   "TOPIC."
@@ -225,6 +236,7 @@
      (with-current-buffer (get-buffer-create "*kafka-topics*")
        (define-key map (kbd "C-m") 'kafka-topics-describe-at-point)
        (define-key map (kbd "C-o") 'kafka-consumer-describe-at-point)
+       (define-key map (kbd "D") 'kafka-topics-delete-at-point)
        (beginning-of-buffer)
        (while more-lines
 	 (setq start (line-beginning-position))
