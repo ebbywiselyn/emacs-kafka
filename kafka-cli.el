@@ -100,8 +100,7 @@
   (let* ((topic (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
     (if (yes-or-no-p (format "Delete topic: %s" topic))
 	(kafka-topics-delete topic)
-      (message "(No deletions performed)")
-      )))
+      (message "(No deletions performed)"))))
 
 ;; move some raw formatting of output from sections to here.
 (defun kafka-topic-get-desc (topic)
