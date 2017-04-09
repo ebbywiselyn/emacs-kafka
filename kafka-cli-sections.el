@@ -70,7 +70,7 @@
 
 ;;;###autoload
 (defun insert-consumer-desc-section (consumer-desc)
-  "CONSUMER-DESC."
+  "Insert a section with property `consumer-desc with content CONSUMER-DESC."
   (dolist (elt consumer-desc)
     (insert " " (concat (car elt) ":" (cdr elt)))
     (add-text-properties (point-at-bol) (point) '(consumer-desc t)) ;; TODO make this as face
@@ -78,7 +78,7 @@
 
 ;;;###autoload
 (defun consumer-desc-section-toggle (consumer-desc-output)
-  "CONSUMER-DESC-OUTPUT."
+  "Toggle a section (delete, insert) with content CONSUMER-DESC-OUTPUT."
   (forward-line 1)
   (setq buffer-read-only 'nil)
   (if (text-property-any (point-at-bol) (point-at-eol) 'consumer-desc t)
@@ -89,7 +89,7 @@
   (setq buffer-read-only t))
 
 (defun delete-chunk-with-properties (&rest properties)
-  "PROPERTIES ."
+  "Delete a chunk with lines of text having these PROPERTIES."
   (dolist (elt properties)
     (--delete-chunk-with-property elt)))
 
