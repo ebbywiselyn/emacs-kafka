@@ -164,6 +164,15 @@
 	     (?q "Back" bury-buffer))
   :default-action 'kafka-topics-create)
 
+
+;; rename aptly
+(magit-define-popup kafka-topics-options-popup
+  "Kafka Topics Options"
+  :actions '((?c "Describe consumer for topic" kafka-consumer-describe-at-point)
+	     (?d "Describe Topic" kafka-topics-describe-at-point)
+	     (?q  "Back" bury-buffer))
+  :default-action 'bury-buffer)
+
 ;;;###autoload
 (magit-define-popup kafka-topics-popup
   "Kafka Topics Popup."
@@ -237,6 +246,7 @@
      (with-current-buffer (get-buffer-create "*kafka-topics*")
        (define-key map (kbd "C-m") 'kafka-topics-describe-at-point)
        (define-key map (kbd "C-o") 'kafka-consumer-describe-at-point)
+       (define-key map (kbd "?") 'kafka-topics-options-popup)
        (define-key map (kbd "D") 'kafka-topics-delete-at-point)
        (beginning-of-buffer)
        (while more-lines
