@@ -30,14 +30,6 @@
       (insert ?\n))))
 
 ;;;###autoload
-(defun delete-topic-desc-section (desc)
-  "Delete the topic description DESC starting from the current point."
-  (dolist (itr desc)
-    (progn
-      (delete-region (point-at-bol) (point-at-eol)) ;; better way?
-      (kill-line))))
-
-;;;###autoload
 (defun topic-desc-section-toggle (topic-desc-raw-output)
   "TOPIC-DESC-RAW-OUTPUT."
   (let ((desc (--filter-topic-desc (--parse-topic topic-desc-raw-output))))
@@ -75,12 +67,6 @@
   (search-forward topic) ;; Fix edge cases, hint: looking-at fn
   (goto-char (point-at-bol)))
 
-;;;###autoload
-(defun delete-consumer-desc-section (consumer-desc)
-  "CONSUMER-DESC."
-  (dolist (elt consumer-desc)
-      (delete-region (point-at-bol) (point-at-eol)) ;; better way?
-      (kill-line)))
 
 ;;;###autoload
 (defun insert-consumer-desc-section (consumer-desc)
