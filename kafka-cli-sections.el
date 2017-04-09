@@ -51,13 +51,13 @@
       (setq buffer-read-only t)))
 
 ;;;###autoload
-(defun kafka-cli-section-goto-previous-topic ()
-  "."
-  (interactive)
-  (let ((topic-ptr (previous-single-property-change (point) 'topic)))
-    (if topic-ptr
-	(progn (goto-char topic-ptr)
-	       (beginning-of-line)))))
+  (defun kafka-cli-section-goto-previous-topic ()
+    "."
+    (interactive)
+    (let ((topic-ptr (previous-single-property-change (point) 'topic)))
+      (if topic-ptr
+	  (progn (goto-char topic-ptr)
+		 (beginning-of-line))))))
 
 ;;;###autoload
 (defun kafka-cli-section-goto-next-topic ()
@@ -96,9 +96,22 @@
   (forward-line 1)
   (setq buffer-read-only 'nil)
   (if (text-property-any (point-at-bol) (point-at-eol) 'consumer-desc t)
-	(delete-consumer-desc-section consumer-desc-output)
-      (insert-consumer-desc-section consumer-desc-output))
+	(delete-chunk-with-properties 'consumer-desc)
+    (progn
+      (delete-chunk-with-properties 'topic-desc 'consumer-desc)
+      (insert-consumer-desc-section consumer-desc-output)))
   (setq buffer-read-only t))
+
+(defun delete-chunk-with-properties (&rest properties)
+  "PROPERTIES ."
+  (dolist (elt properties)
+    (--delete-chunk-with-property elt)))
+
+(defun --delete-chunk-with-property (property)
+  "PROPERTY ."
+  (while (text-property-any (point-at-bol) (point-at-eol) property t)
+    (delete-region (point-at-bol) (point-at-eol)) ;; better way?
+    (kill-line)))
 
 (provide 'kafka-cli-sections)
 ;;; kafka-cli-sections.el ends here
