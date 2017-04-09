@@ -44,9 +44,11 @@
     (forward-line 1)
     (setq buffer-read-only 'nil)
     (if (text-property-any (point-at-bol) (point-at-eol) 'topic-desc t)
-	(delete-topic-desc-section desc)
-      (insert-topic-desc-section desc))
-    (setq buffer-read-only t)))
+	(delete-chunk-with-properties 'topic-desc)
+      (progn
+	(delete-chunk-with-properties 'topic-desc 'consumer-desc)
+	(insert-topic-desc-section desc))
+      (setq buffer-read-only t)))
 
 ;;;###autoload
 (defun kafka-cli-section-goto-previous-topic ()
