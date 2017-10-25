@@ -77,7 +77,7 @@
 (defun kafka-consumer-get-offset (topic)
   "TOPIC."
   (message "topic: %S" topic)
-  (let* ((consumer-cli (concat kafka-cli-bin-path "kafka-consumer-offset-checker.sh"))
+  (let* ((consumer-cli (concat kafka-cli-bin-path "/kafka-consumer-offset-checker.sh"))
 	 (output (process-lines consumer-cli "--topic" topic "--zookeeper" zookeeper-url "--group" "kafka-cli-consumer"))
 	 (keys (split-string (cadr output)))
 	 (values (split-string (caddr output))))

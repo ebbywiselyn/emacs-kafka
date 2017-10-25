@@ -31,7 +31,7 @@
 ;;;###autoload
 (defun get-kafka-consumer-cli-arguments ()
   "Command line arguments to `kafka-console-consumer.sh'."
-  `("--whitelist" "event.json.*" "--consumer-property" "group.id=kafka-cli-consumer" "--bootstrap-server" ,kafka-url))
+  `("--whitelist" ,kafka-consumer-whitelist-topics "--consumer-property" "group.id=kafka-cli-consumer" "--bootstrap-server" ,kafka-url))
 
 
 ;;;###autoload

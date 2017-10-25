@@ -32,15 +32,27 @@ Replace /path/to/ with the location where you cloned it.
 (setq kafka-cli-bin-path "/path/to/kafka-0.10/bin")
 (setq kafka-cli-config-path "/path/to/kafka-0.10/config")
 ```
+
+By default kafka and zookeeper url points to localhost, to configure that
+
+``` emacs-lisp
+(setq kafka-url "hostname:port")
+(setq zookeeper-url "hostname:port")
+```
+
 * M-x run-zookeeper RET
 Should start the zookeeper service in localhost:2181
 
 * M-x run-kafkabroker RET
 Should start a local broker running in localhost:9092
 
+Configure what topics to consume
+``` emacs-lisp
+(setq kafka-consumer-whitelist-topics "path.path.topic")
+```
+
 * M-x run-kafkaconsumer RET
 Should start a console consumer
-
 You can run M-x list-processes RET, to see if these processes are running.
 
 ## Kafka CLI
