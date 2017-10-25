@@ -66,7 +66,7 @@
     (kafka-cli-topic-mode)))
 
 (defun --get-topics (&optional update)
-  "UPDATE."
+  "Either get topics or get and update based on flag UPDATE."
   (if (or  (not (boundp 'all-topics)) update)
     (save-excursion
       (kafka-topics-list)
@@ -75,7 +75,7 @@
     all-topics))
 
 (defun kafka-consumer-get-offset (topic)
-  "TOPIC."
+  "Get TOPIC offset information."
   (message "topic: %S" topic)
   (let* ((consumer-cli (concat kafka-cli-bin-path "/kafka-consumer-offset-checker.sh"))
 	 (output (process-lines consumer-cli "--topic" topic "--zookeeper" zookeeper-url "--group" "kafka-cli-consumer"))
@@ -95,7 +95,7 @@
 
 ;;;###autoload
 (defun kafka-topics-delete-at-point ()
-  "."
+  "Delete topic at point."
   (interactive)
   (let* ((topic (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
     (if (yes-or-no-p (format "Delete topic: %s" topic))
@@ -104,7 +104,7 @@
 
 ;; move some raw formatting of output from sections to here.
 (defun kafka-topic-get-desc (topic)
-  "TOPIC."
+  "Describe topic TOPIC."
   (let* ((topics-cli (concat kafka-cli-bin-path "/kafka-topics.sh")))
     (process-lines topics-cli "--topic" topic "--zookeeper" zookeeper-url "--describe")))
 
