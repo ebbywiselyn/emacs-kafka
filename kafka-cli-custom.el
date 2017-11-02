@@ -27,7 +27,7 @@
   )
 
 ;;;###autoload
-(defcustom kafka-consumer-whitelist-topics "*.*" "List of topics to consume from."
+(defcustom kafka-consumer-whitelist-topics "(.*)" "List of topics to consume from."
   :type '(string)
   :group 'kafka-cli
   )
