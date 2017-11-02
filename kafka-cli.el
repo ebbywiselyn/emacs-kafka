@@ -176,6 +176,17 @@
   :default-action 'kafka-topics-list)
 
 
+(defun do-nothing (message "not implemented"))
+
+;;;###autoload
+(magit-define-popup kafka-consumer-popup
+  "Kafka Topics Popup."
+  :actions '((?c "Restart Consumer" do-nothing)
+	     (?l "Stop Consumer" do-nothing)
+	     (?q "Back/Bury Buffer" bury-buffer))
+  :default-action 'kafka-topics-list)
+
+
 (defun kafka-cli ()
   "Start the kafka services and displays the popup."
   (interactive)
@@ -214,8 +225,28 @@
   (setq font-lock-defaults kafka-cli-log-mode-highlights)
   (setq buffer-read-only 'nil))
 
+(defvar kafka-cli-consumer-mode-map
+  (let ((map (make-keymap)))
+    (define-key map  (kbd "q") 'bury-buffer)
+    (define-key map  (kbd "?") 'kafka-consumer-popup)
+    map)
+  "Keymap for `kafka-cli-consumer-mode' .")
+
+(defvar kafka-cli-consumer-mode-highlights
+  '((
+     ("\\w*" . font-lock-variable-name-face))))
+
+(define-derived-mode kafka-cli-consumer-mode comint-mode "KafkaCliConsumer"
+  "Mode for looking at consumer.
+\\{kafka-cli-consumer-mode-map}"
+  :group 'kafka-topics
+  (use-local-map kafka-cli-consumer-mode-map)
+  (setq font-lock-defaults kafka-cli-consumer-mode-highlights)
+  (setq buffer-read-only 'nil))
+
 (defvar kafka-cli-topic-mode-map
   (let ((map (make-keymap)))
+    (define-key map (kbd "?") 'kafka-topics-popup)
     (define-key map (kbd "q") 'bury-buffer)
     map)
   "Keymap for `kafka-cli-topic-mode'.")
