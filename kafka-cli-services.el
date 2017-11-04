@@ -101,6 +101,18 @@
 	     (interrupt-process (get-buffer "*consumer*")))
     (run-kafkaconsumer switch)))
 
+(defun pause-kafkaconsumer ()
+  "."
+  (interactive)
+  (if (comint-check-proc (get-buffer "*consumer*"))
+      (signal-process (get-buffer-process "*consumer*") 19)))
+
+(defun continue-kafkaconsumer ()
+  "."
+  (interactive)
+  (if (comint-check-proc (get-buffer "*consumer*"))
+      (signal-process (get-buffer-process "*consumer*") 18)))
+
 (defun kafka-services-running ()
   "Return true if all the kafka services are running."
   (and (comint-check-proc "*zookeeper*") ;; this has race conditions don't rely on this.

@@ -187,8 +187,8 @@
 (magit-define-popup kafka-consumer-popup
   "Kafka Topics Popup."
   :actions '((?R "Restart Consumer" restart-kafkaconsumer-wrapper)
-	     (?P "Pause Consumer" do-nothing)
-	     (?C "Continue Consumer" do-nothing)
+	     (?P "Pause Consumer" pause-kafkaconsumer)
+	     (?C "Continue Consumer" continue-kafkaconsumer)
 	     (?q "Back/Bury Buffer" bury-buffer))
   :default-action 'kafka-topics-list)
 
