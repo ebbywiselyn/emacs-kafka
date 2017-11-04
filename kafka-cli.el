@@ -133,7 +133,12 @@
   "Show Consumer Buffer."
   (interactive)
   (run-kafkaconsumer 1)
-  (kafka-cli-log-mode))
+  (kafka-cli-consumer-mode))
+
+(defun restart-kafkaconsumer-wrapper ()
+  "Restart Consumer"
+  (interactive)
+  (restart-kafkaconsumer 1))
 
 (defun show-all-kafka-services ()
   "Show all buffers FIXME load the mode."
@@ -181,8 +186,9 @@
 ;;;###autoload
 (magit-define-popup kafka-consumer-popup
   "Kafka Topics Popup."
-  :actions '((?c "Restart Consumer" do-nothing)
-	     (?l "Stop Consumer" do-nothing)
+  :actions '((?R "Restart Consumer" restart-kafkaconsumer-wrapper)
+	     (?P "Pause Consumer" do-nothing)
+	     (?C "Continue Consumer" do-nothing)
 	     (?q "Back/Bury Buffer" bury-buffer))
   :default-action 'kafka-topics-list)
 

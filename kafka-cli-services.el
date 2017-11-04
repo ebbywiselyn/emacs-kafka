@@ -31,7 +31,7 @@
 ;;;###autoload
 (defun get-kafka-consumer-cli-arguments ()
   "Command line arguments to `kafka-console-consumer.sh'."
-  `("--whitelist" ,kafka-consumer-whitelist-topics "--consumer-property" "group.id=kafka-cli-consumer" "--bootstrap-server" ,kafka-url))
+  `("--whitelist" ,kafka-consumer-whitelist-topics "--consumer-property" "group.id=kafka-cli-consumer1" "--bootstrap-server" ,kafka-url))
 
 
 ;;;###autoload
@@ -82,12 +82,24 @@
     (if (comint-check-proc kafka-consumer-buffer)
 	(and switch (switch-to-buffer kafka-consumer-buffer))
       (progn
-	(apply
+	(apply ;; TODO message deserialize using custom serializers
 	 'make-comint-in-buffer "*consumer*" kafka-consumer-buffer
 	 kafka-consumer-cli-file-path 'nil kafka-consumer-cli-args)
 	(and switch (switch-to-buffer kafka-consumer-buffer))))
     (with-current-buffer kafka-consumer-buffer
-      (kafka-cli-log-mode))))
+      (kafka-cli-consumer-mode))))
+
+(defun consumer-sentinel (process event)
+  "PROCESS EVENT ."
+  (run-kafkaconsumer 1))
+
+(defun restart-kafkaconsumer (switch)
+  "Kill the process, and start again, switch to buffer if SWITCH is non 'nil."
+  (interactive "i")
+  (if (comint-check-proc (get-buffer "*consumer*"))
+      (progn (set-process-sentinel (get-buffer-process "*consumer*") 'consumer-sentinel)
+	     (interrupt-process (get-buffer "*consumer*")))
+    (run-kafkaconsumer switch)))
 
 (defun kafka-services-running ()
   "Return true if all the kafka services are running."
