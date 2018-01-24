@@ -181,7 +181,8 @@
   :default-action 'kafka-topics-list)
 
 
-(defun do-nothing (message "not implemented"))
+(defun do-nothing ()
+  (message "not implemented"))
 
 ;;;###autoload
 (magit-define-popup kafka-consumer-popup
