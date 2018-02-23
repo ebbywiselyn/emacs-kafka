@@ -41,10 +41,10 @@ By default kafka and zookeeper url points to localhost, to configure that
 ```
 
 * M-x run-zookeeper RET
-Should start the zookeeper service in localhost:2181
+Should start the zookeeper service in `localhost:2181`
 
 * M-x run-kafkabroker RET
-Should start a local broker running in localhost:9092
+Should start a local broker running in `localhost:9092`
 
 Configure what topics to consume
 ``` emacs-lisp
