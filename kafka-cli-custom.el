@@ -27,12 +27,10 @@
   )
 
 ;;;###autoload
-(defvar zookeeper-cli-file-path (concat kafka-cli-bin-path "/zookeeper-server-start.sh")
-  "Path to the program used by `run-zookeeper'.")
-
-;;;###autoload
-(defvar zookeeper-cli-arguments (concat kafka-cli-config-path "/zookeeper.properties")
-  "Command line arguments to `zookeeper-server-start.sh'.")
+(defcustom kafka-consumer-whitelist-topics "(.*)" "List of topics to consume from."
+  :type '(string)
+  :group 'kafka-cli
+  )
 
 (provide 'kafka-cli-custom)
 ;;; kafka-cli-custom.el ends here

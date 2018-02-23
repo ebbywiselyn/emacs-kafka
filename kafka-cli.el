@@ -66,7 +66,7 @@
     (kafka-cli-topic-mode)))
 
 (defun --get-topics (&optional update)
-  "UPDATE."
+  "Either get topics or get and update based on flag UPDATE."
   (if (or  (not (boundp 'all-topics)) update)
     (save-excursion
       (kafka-topics-list)
@@ -75,9 +75,9 @@
     all-topics))
 
 (defun kafka-consumer-get-offset (topic)
-  "TOPIC."
+  "Get TOPIC offset information."
   (message "topic: %S" topic)
-  (let* ((consumer-cli (concat kafka-cli-bin-path "kafka-consumer-offset-checker.sh"))
+  (let* ((consumer-cli (concat kafka-cli-bin-path "/kafka-consumer-offset-checker.sh"))
 	 (output (process-lines consumer-cli "--topic" topic "--zookeeper" zookeeper-url "--group" "kafka-cli-consumer"))
 	 (keys (split-string (cadr output)))
 	 (values (split-string (caddr output))))
@@ -95,7 +95,7 @@
 
 ;;;###autoload
 (defun kafka-topics-delete-at-point ()
-  "."
+  "Delete topic at point."
   (interactive)
   (let* ((topic (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
     (if (yes-or-no-p (format "Delete topic: %s" topic))
@@ -104,7 +104,7 @@
 
 ;; move some raw formatting of output from sections to here.
 (defun kafka-topic-get-desc (topic)
-  "TOPIC."
+  "Describe topic TOPIC."
   (let* ((topics-cli (concat kafka-cli-bin-path "/kafka-topics.sh")))
     (process-lines topics-cli "--topic" topic "--zookeeper" zookeeper-url "--describe")))
 
@@ -133,7 +133,12 @@
   "Show Consumer Buffer."
   (interactive)
   (run-kafkaconsumer 1)
-  (kafka-cli-log-mode))
+  (kafka-cli-consumer-mode))
+
+(defun restart-kafkaconsumer-wrapper ()
+  "Restart Consumer"
+  (interactive)
+  (restart-kafkaconsumer 1))
 
 (defun show-all-kafka-services ()
   "Show all buffers FIXME load the mode."
@@ -185,6 +190,19 @@
   :default-action 'kafka-topics-list)
 
 
+(defun do-nothing ()
+  (message "not implemented"))
+
+;;;###autoload
+(magit-define-popup kafka-consumer-popup
+  "Kafka Topics Popup."
+  :actions '((?R "Restart Consumer" restart-kafkaconsumer-wrapper)
+	     (?P "Pause Consumer" pause-kafkaconsumer)
+	     (?C "Continue Consumer" continue-kafkaconsumer)
+	     (?q "Back/Bury Buffer" bury-buffer))
+  :default-action 'kafka-topics-list)
+
+
 (defun kafka-cli ()
   "Start the kafka services and displays the popup."
   (interactive)
@@ -223,8 +241,28 @@
   (setq font-lock-defaults kafka-cli-log-mode-highlights)
   (setq buffer-read-only 'nil))
 
+(defvar kafka-cli-consumer-mode-map
+  (let ((map (make-keymap)))
+    (define-key map  (kbd "q") 'bury-buffer)
+    (define-key map  (kbd "?") 'kafka-consumer-popup)
+    map)
+  "Keymap for `kafka-cli-consumer-mode' .")
+
+(defvar kafka-cli-consumer-mode-highlights
+  '((
+     ("\\w*" . font-lock-variable-name-face))))
+
+(define-derived-mode kafka-cli-consumer-mode comint-mode "KafkaCliConsumer"
+  "Mode for looking at consumer.
+\\{kafka-cli-consumer-mode-map}"
+  :group 'kafka-topics
+  (use-local-map kafka-cli-consumer-mode-map)
+  (setq font-lock-defaults kafka-cli-consumer-mode-highlights)
+  (setq buffer-read-only 'nil))
+
 (defvar kafka-cli-topic-mode-map
   (let ((map (make-keymap)))
+    (define-key map (kbd "?") 'kafka-topics-popup)
     (define-key map (kbd "q") 'bury-buffer)
     map)
   "Keymap for `kafka-cli-topic-mode'.")
